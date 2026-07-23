@@ -99,9 +99,20 @@ a{color:inherit}
 .dd-menu[hidden]{display:none}
 .dd-menu a{padding:.6rem .8rem;border-radius:8px;font-weight:500;white-space:nowrap}
 .dd-menu a:hover,.dd-menu a:focus-visible{background:var(--crema-2);color:var(--teal)}
+.nav-burger{display:none;background:none;border:1px solid var(--linea);border-radius:10px;padding:.45rem .6rem;cursor:pointer;color:var(--tinta-suave);align-items:center;gap:.45rem;font:600 .85rem 'Instrument Sans',sans-serif;transition:color .2s,border-color .2s}
+.nav-burger:hover,.nav-burger:focus-visible{color:var(--teal);border-color:var(--teal)}
+.nav-burger svg{display:block}
+.movil-menu{display:none}
 @media(max-width:680px){
   .topnav{display:none}
   .logo-link img{height:44px}
+  .nav-burger{display:inline-flex}
+  .movil-menu{display:block;position:absolute;top:100%;left:0;right:0;background:var(--crema);border-bottom:1px solid var(--linea);box-shadow:0 14px 30px rgba(14,59,46,.16);padding:.4rem 1.25rem 1.1rem;max-height:calc(100vh - 70px);overflow:auto;z-index:55}
+  .movil-menu[hidden]{display:none}
+  .mm-grupo{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:.95rem 0 .15rem}
+  .movil-menu a{display:block;padding:.55rem 0;text-decoration:none;font-weight:600;color:var(--tinta);border-bottom:1px solid var(--crema-2)}
+  .movil-menu a:last-child{border-bottom:none}
+  .movil-menu a:hover,.movil-menu a:focus-visible{color:var(--teal)}
 }
 
 /* ── Hero ──────────────────────────────────────────── */
@@ -288,7 +299,27 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
       <a href="horarios.html">Horarios</a>
       <a href="calendario.html">Calendario</a>
     </nav>
+    <button type="button" class="nav-burger" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú de navegación">
+      Menú
+      <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
   </div>
+  <nav class="movil-menu" id="menu-movil" hidden aria-label="Menú móvil">
+    <p class="mm-grupo">Procedimientos</p>
+    <a href="https://sites.google.com/view/licenciatura-en-produccion-agr/inicio/becas">Becas</a>
+    <a href="titulacion.html">Titulación</a>
+    <a href="https://sites.google.com/view/licenciatura-en-produccion-agr/inicio/movilidad">Movilidad</a>
+    <a href="practicas.html">Prácticas profesionales</a>
+    <a href="servicio-social.html">Servicio social</a>
+    <a href="horas.html">Horas extracurriculares</a>
+    <p class="mm-grupo">Normativa</p>
+    <a href="reglamento.html">Reglamento del estudiante</a>
+    <a href="salones.html">Reglas de los salones</a>
+    <p class="mm-grupo">Secciones</p>
+    <a href="egresados.html">Egresados</a>
+    <a href="horarios.html">Horarios</a>
+    <a href="calendario.html">Calendario</a>
+  </nav>
 </header>
 
 <section class="hero">
@@ -467,6 +498,22 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape')dds.forEach(function(o){if(!o.m.hidden){o.abrir(false);o.t.focus();}});
   });
+  var bt=document.querySelector('.nav-burger'), mm=document.getElementById('menu-movil');
+  if(bt&&mm){
+    function cerrarMM(){bt.setAttribute('aria-expanded','false');mm.hidden=true;}
+    bt.addEventListener('click',function(e){
+      e.stopPropagation();
+      var abierto=bt.getAttribute('aria-expanded')==='true';
+      bt.setAttribute('aria-expanded',String(!abierto));mm.hidden=abierto;
+    });
+    document.addEventListener('click',function(e){
+      if(!mm.hidden&&!mm.contains(e.target)&&!bt.contains(e.target))cerrarMM();
+    });
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&!mm.hidden){cerrarMM();bt.focus();}
+    });
+    mm.addEventListener('click',function(e){if(e.target.tagName==='A')cerrarMM();});
+  }
 })();
 </script>
 </body>
