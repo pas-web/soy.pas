@@ -19,18 +19,40 @@
     pestaña nueva con flecha ↗, convención del sitio.
   · El enlace a cédula profesional se limpió del redirector
     de Google (google.com/url?q=...) al destino real gob.mx.
+
+  ACTUALIZACIÓN · Julio 2026 — Seguimiento y bolsa de trabajo
+  · Nueva sección "Seguimiento de egresados": tarjeta de la
+    encuesta (pegar enlace donde dice PEGAR_ENLACE_ENCUESTA_AQUI)
+    y tarjeta del análisis del reporte, desactivada (clase
+    .proximamente) hasta que exista el documento — para activarla,
+    quitar la clase y poner el enlace.
+  · Nueva sección "Bolsa de trabajo PAS": las tarjetas de vacante
+    viven entre los marcadores BOLSA:INICIO y BOLSA:FIN; el
+    skill bolsa-pas regenera SOLO ese bloque cada mes. Lo mismo
+    con el Radar del mes (RADAR:INICIO/FIN). No editar
+    a mano dentro de esos marcadores.
+  · Las vacantes incluidas son EJEMPLOS de estructura (insignia
+    "Ejemplo"); el primer escaneo mensual las reemplaza.
+  · Tarjeta "Comparte una vacante": mini-formulario que envía en
+    segundo plano al Google Form "Comparte una vacante · Bolsa PAS"
+    (form 1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw);
+    las respuestas caen en la hoja "Respuestas · Comparte una
+    vacante · Bolsa PAS" del Drive de la coordinación. El skill
+    bolsa-pas las integra al filtrado de cada escaneo mensual.
+  · Alcance geográfico acordado de la bolsa: Querétaro,
+    Guanajuato, San Luis Potosí e Hidalgo.
   ═══════════════════════════════════════════════════════════════
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Egresados · Licenciatura PAS · UAQ Campus Concá</title>
-<meta name="description" content="Recursos para egresados de la Licenciatura PAS: cédula profesional, plantilla de CV, LinkedIn, OCCMundial y consejos de inserción laboral.">
+<meta name="description" content="Recursos para egresados de la Licenciatura PAS: cédula profesional, plantilla de CV, LinkedIn, OCCMundial, encuesta de seguimiento y bolsa de trabajo del sector agropecuario y ambiental.">
 <meta name="theme-color" content="#1D4D77">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:title" content="Egresados · Licenciatura PAS · UAQ Campus Concá">
-<meta property="og:description" content="Recursos para egresados de la Licenciatura PAS: cédula profesional, plantilla de CV, LinkedIn, OCCMundial y consejos de inserción laboral.">
+<meta property="og:description" content="Recursos para egresados de la Licenciatura PAS: cédula profesional, plantilla de CV, LinkedIn, OCCMundial, encuesta de seguimiento y bolsa de trabajo del sector agropecuario y ambiental.">
 <!-- og:image listo para activar al publicar: descomentar y poner la URL pública del logo
 <meta property="og:image" content="https://USUARIO.github.io/REPO/logo_PAS_transparente.png">
 -->
@@ -117,6 +139,45 @@ h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2rem,4.6vw,3.3re
 .doc .flecha{color:var(--azul-pas);font-weight:700;transition:transform .18s}
 .doc:hover .flecha{transform:translateX(4px)}
 
+/* ── Seguimiento de egresados ── */
+.seguimiento{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
+@media(max-width:780px){.seguimiento{grid-template-columns:1fr}}
+.tarjeta-accion{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:1.4rem 1.4rem 1.3rem}
+.tarjeta-accion .tipo{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--azul-pas);margin-bottom:.45rem}
+.tarjeta-accion h3{font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;margin-bottom:.35rem}
+.tarjeta-accion p{font-size:.9rem;color:var(--tinta-suave);line-height:1.5}
+.boton{display:inline-block;margin-top:.9rem;background:var(--azul-pas);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;padding:.6rem 1.3rem;border-radius:999px;transition:background .18s,transform .18s}
+.boton:hover,.boton:focus-visible{background:var(--azul-oscuro);transform:translateY(-2px)}
+.proximamente{opacity:.62}
+.proximamente .etiqueta-prox{display:inline-block;margin-top:.9rem;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-suave);border:1px dashed var(--linea);border-radius:999px;padding:.45rem 1rem}
+
+/* ── Bolsa de trabajo ── */
+.actualizado{display:inline-block;font-size:.78rem;font-weight:700;color:var(--teal);background:#E7F3EF;border-radius:999px;padding:.3rem .85rem;margin-bottom:1.2rem}
+.vacantes{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+@media(max-width:780px){.vacantes{grid-template-columns:1fr}}
+.vacante{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:1.2rem 1.2rem 1.05rem;text-decoration:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
+.vacante:hover,.vacante:focus-visible{transform:translateY(-3px);border-color:var(--azul-pas);box-shadow:0 10px 26px rgba(29,77,119,.14)}
+.vacante .sector{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--azul-pas);margin-bottom:.4rem}
+.vacante h3{font-family:'Fraunces',serif;font-weight:700;font-size:1.05rem;margin-bottom:.25rem}
+.vacante .empleador{font-size:.87rem;color:var(--tinta-suave)}
+.vacante .metas{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}
+.vacante .meta{font-size:.72rem;font-weight:600;color:var(--tinta-suave);border:1px solid var(--linea);border-radius:999px;padding:.22rem .65rem;white-space:nowrap}
+.vacante .meta.cierre{color:#9C3B1E;border-color:#EAD3C9;background:#FBEAE4}
+.vacante .abrir{margin-top:auto;padding-top:.75rem;font-size:.82rem;font-weight:700;color:var(--azul-pas)}
+.insignia-ejemplo{font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a6d1a;background:#F6EFD6;border-radius:999px;padding:.2rem .6rem;margin-left:.5rem;vertical-align:middle}
+
+/* ── Radar del mes ── */
+.radar{background:var(--monte);color:#EAF3EE;border-radius:18px;padding:1.8rem 1.6rem;margin-top:1.4rem}
+.radar h3{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;margin-bottom:.3rem}
+.radar .radar-nota{font-size:.9rem;color:#BCD6CA;margin-bottom:1.2rem}
+.radar-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+@media(max-width:780px){.radar-cols{grid-template-columns:1fr}}
+.radar-col h4{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#7FBF9E;margin-bottom:.5rem}
+.radar-col ul{list-style:none}
+.radar-col li{font-size:.88rem;line-height:1.5;padding:.3rem 0;border-bottom:1px solid rgba(191,214,202,.18)}
+.radar-col li:last-child{border-bottom:none}
+.radar-col a{color:#EAF3EE;text-decoration:underline;text-decoration-color:#7FBF9E}
+
 .ayuda{max-width:var(--max);margin:3rem auto 0;padding:0 1.25rem}
 .ayuda-caja{background:var(--crema-2);border:1px solid var(--linea);border-radius:14px;padding:1.3rem 1.5rem;font-size:.93rem;color:var(--tinta-suave)}
 .ayuda-caja strong{color:var(--tinta)}
@@ -127,6 +188,16 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
 .pie-texto{font-size:.86rem;color:var(--tinta-suave);line-height:1.5;text-align:right}
 @media(max-width:560px){.pie-inner{flex-direction:column;align-items:flex-start}.pie-texto{text-align:left}}
 :focus-visible{outline:3px solid var(--azul-pas);outline-offset:2px}
+
+/* ── Mini-form "Comparte una vacante" (envía al Google Form en segundo plano) ── */
+#form-vacante{margin-top:.9rem}
+#form-vacante .campo-etiqueta{display:block;font-size:.78rem;font-weight:700;color:var(--monte);margin:.6rem 0 .25rem}
+#form-vacante .campo{width:100%;font-family:'Instrument Sans',system-ui,sans-serif;font-size:.9rem;color:var(--tinta);background:var(--crema);border:1px solid var(--linea);border-radius:10px;padding:.55rem .8rem}
+#form-vacante .campo:focus{outline:2px solid var(--azul-pas);outline-offset:1px;background:#fff}
+#form-vacante textarea.campo{resize:vertical;min-height:2.6rem}
+#form-vacante .boton-form{border:0;cursor:pointer;font-family:inherit}
+#form-vacante .boton-form[disabled]{opacity:.6;cursor:wait;transform:none}
+.vac-gracias{margin-top:.7rem;font-size:.85rem;font-weight:600;color:var(--teal);background:#E7F3EF;border-radius:10px;padding:.5rem .8rem}
 </style>
 </head>
 <body>
@@ -149,6 +220,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       <span class="chip">Plataformas de empleo</span>
       <span class="chip">Perfil profesional</span>
       <span class="chip">Consejos de egresad@s</span>
+      <span class="chip">Bolsa de trabajo</span>
     </div>
   </div>
   <!-- Correcaminos de grabado, en plena salida -->
@@ -237,6 +309,139 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
   </article>
 </section>
 
+<section class="seccion" aria-labelledby="t-seguimiento">
+  <div class="seccion-cabeza">
+    <h2 id="t-seguimiento">Seguimiento de egresados</h2>
+    <div class="regla" aria-hidden="true"></div>
+  </div>
+  <p class="seccion-nota">Tu experiencia laboral es la brújula del plan de estudios. Contesta la encuesta y consulta lo que la comunidad de egresad@s nos ha contado.</p>
+  <div class="seguimiento">
+
+    <div class="tarjeta-accion">
+      <p class="tipo">Encuesta · 10 minutos</p>
+      <h3>Encuesta de seguimiento de egresados</h3>
+      <p>Cuéntanos dónde estás y qué haces: en qué trabajas, qué te sirvió de la carrera y qué le faltó. Con tus respuestas ajustamos el plan de estudios y los apoyos a egresad@s.</p>
+      <!-- ▼ ENCUESTA: pegar aquí el enlace del Google Form (reemplazar PEGAR_ENLACE_ENCUESTA_AQUI) -->
+      <a class="boton" href="PEGAR_ENLACE_ENCUESTA_AQUI" target="_blank" rel="noopener">Contestar la encuesta ↗</a>
+    </div>
+
+    <!-- ▼ ANÁLISIS DEL REPORTE: cuando exista el documento,
+         (1) quitar la clase "proximamente" del div,
+         (2) sustituir la etiqueta-prox por:
+         <a class="boton" href="ENLACE_AL_ANALISIS" target="_blank" rel="noopener">Leer el análisis ↗</a> -->
+    <div class="tarjeta-accion proximamente">
+      <p class="tipo">Documento · Coordinación PAS</p>
+      <h3>Análisis del reporte de egresados</h3>
+      <p>¿Dónde trabajan las y los egresados PAS? ¿En qué sectores, con qué ingresos, con qué retos? El análisis del reporte más reciente, en lenguaje claro.</p>
+      <span class="etiqueta-prox">Próximamente</span>
+    </div>
+
+  </div>
+</section>
+
+<section class="seccion" aria-labelledby="t-bolsa">
+  <div class="seccion-cabeza">
+    <h2 id="t-bolsa">Bolsa de trabajo PAS</h2>
+    <div class="regla" aria-hidden="true"></div>
+  </div>
+  <p class="seccion-nota">Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, curadas cada mes por la coordinación. Postúlate directamente con el empleador.</p>
+
+<!-- BOLSA:INICIO — este bloque lo regenera el skill bolsa-pas cada mes; no editar a mano -->
+  <span class="actualizado">Última actualización · julio 2026 · vacantes de ejemplo</span>
+  <div class="vacantes">
+
+    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
+      <p class="sector">Producción agrícola<span class="insignia-ejemplo">Ejemplo</span></p>
+      <h3>Técnico/a de campo en berries</h3>
+      <p class="empleador">Agroexportadora regional · El Marqués, Qro.</p>
+      <div class="metas">
+        <span class="meta">Tiempo completo</span>
+        <span class="meta cierre">Cierra 15 ago</span>
+      </div>
+      <p class="abrir">Ver vacante ↗</p>
+    </a>
+
+    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
+      <p class="sector">Conservación<span class="insignia-ejemplo">Ejemplo</span></p>
+      <h3>Promotor/a comunitario ambiental</h3>
+      <p class="empleador">OSC de conservación · Jalpan de Serra, Qro.</p>
+      <div class="metas">
+        <span class="meta">Proyecto · 12 meses</span>
+        <span class="meta cierre">Cierra 31 jul</span>
+      </div>
+      <p class="abrir">Ver vacante ↗</p>
+    </a>
+
+    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
+      <p class="sector">Agroindustria<span class="insignia-ejemplo">Ejemplo</span></p>
+      <h3>Supervisor/a de inocuidad</h3>
+      <p class="empleador">Planta agroindustrial · Celaya, Gto.</p>
+      <div class="metas">
+        <span class="meta">Tiempo completo</span>
+        <span class="meta">Sin fecha de cierre</span>
+      </div>
+      <p class="abrir">Ver vacante ↗</p>
+    </a>
+
+  </div>
+<!-- BOLSA:FIN -->
+
+  <div class="seguimiento" style="margin-top:.9rem">
+    <div class="tarjeta-accion">
+      <p class="tipo">Comunidad · Google Form</p>
+      <h3>¿Viste una vacante? Compártela</h3>
+      <p>Quien ya trabaja en el sector es el mejor radar: si en tu empresa, rancho, dependencia u organización hay una vacante para perfiles PAS, repórtala aquí y la sumamos a la bolsa del mes.</p>
+      <!-- ▼ FORM DE VACANTES: envía en segundo plano al Google Form "Comparte una vacante · Bolsa PAS" -->
+      <form id="form-vacante" action="https://docs.google.com/forms/d/e/1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw/formResponse" method="POST" target="iframe-vacante">
+        <label class="campo-etiqueta" for="vac-url">Enlace de la vacante</label>
+        <input class="campo" type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url">
+        <label class="campo-etiqueta" for="vac-coment">Comentario (opcional)</label>
+        <textarea class="campo" id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante"></textarea>
+        <button class="boton boton-form" type="submit">Enviar vacante</button>
+        <p id="vac-gracias" class="vac-gracias" hidden>¡Recibida! Gracias por alimentar la bolsa: se revisa en el próximo escaneo mensual.</p>
+      </form>
+      <iframe name="iframe-vacante" id="iframe-vacante" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
+    </div>
+    <div class="tarjeta-accion">
+      <p class="tipo">Aviso</p>
+      <h3>Cómo funciona esta bolsa</h3>
+      <p>La coordinación revisa portales de empleo, dependencias y empresas del sector una vez al mes y publica aquí lo relevante para perfiles PAS. Las postulaciones son directas con el empleador; la UAQ solo difunde. Verifica siempre la vigencia en el sitio original.</p>
+    </div>
+  </div>
+
+<!-- RADAR:INICIO — este bloque lo regenera el skill bolsa-pas cada mes; no editar a mano -->
+  <div class="radar" aria-labelledby="t-radar">
+    <h3 id="t-radar">Radar del mes<span class="insignia-ejemplo">Ejemplo</span></h3>
+    <p class="radar-nota">Señales del mercado laboral agropecuario y ambiental, actualizadas con cada escaneo mensual.</p>
+    <div class="radar-cols">
+      <div class="radar-col">
+        <h4>A quién seguir</h4>
+        <ul>
+          <li>SADER Querétaro — convocatorias y programas estatales</li>
+          <li>CONANP Sierra Gorda — plazas y voluntariados en la reserva</li>
+          <li>Consejos estatales agropecuarios — ferias de empleo del sector</li>
+        </ul>
+      </div>
+      <div class="radar-col">
+        <h4>Se mueve en el sector</h4>
+        <ul>
+          <li>Crece la demanda de técnicos en agricultura protegida en el Bajío</li>
+          <li>Nuevas reglas de operación de programas de campo — revisa fechas</li>
+        </ul>
+      </div>
+      <div class="radar-col">
+        <h4>Fortalece tu CV</h4>
+        <ul>
+          <li>Certificación en buenas prácticas agrícolas (SENASICA)</li>
+          <li>Curso corto de QGIS o percepción remota básica</li>
+          <li>Excel intermedio: filtros, tablas dinámicas, gráficas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<!-- RADAR:FIN -->
+</section>
+
 <div class="ayuda">
   <div class="ayuda-caja">
     <strong>¿Quieres compartir tu experiencia con la comunidad PAS?</strong> Escribe a la coordinación de la licenciatura: los conversatorios con egresad@s se nutren de historias como la tuya.
@@ -254,5 +459,29 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
   </div>
 </footer>
 
+<script>
+(function(){
+  var f = document.getElementById('form-vacante');
+  if (!f) return;
+  var marco = document.getElementById('iframe-vacante');
+  var gracias = document.getElementById('vac-gracias');
+  var boton = f.querySelector('.boton-form');
+  var enviado = false;
+  f.addEventListener('submit', function(){
+    enviado = true;
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+  });
+  marco.addEventListener('load', function(){
+    if (!enviado) return;   // ignora cargas que no vienen de un envío
+    enviado = false;
+    f.reset();
+    boton.disabled = false;
+    boton.textContent = 'Enviar vacante';
+    gracias.hidden = false;
+    setTimeout(function(){ gracias.hidden = true; }, 9000);
+  });
+})();
+</script>
 </body>
 </html>
