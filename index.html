@@ -195,6 +195,10 @@ h1 .acento{color:#7FD89B;font-style:italic;font-weight:600}
 .t-franja   .icono{background:#F3E2D8;color:#B5673C}
 .t-consejo  .icono{background:#F4EEDC;color:#8A6D1F}
 .t-cal      .icono{background:#DDE8F2;color:var(--azul-pas)}
+.t-bolsa    .icono{background:#E0F0EE;color:var(--teal)}
+.t-comparte .icono{background:#EAF3E9;color:var(--milpa)}
+.duo{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+@media(max-width:700px){.duo{grid-template-columns:1fr}}
 .tarjeta h3{
   font-family:'Fraunces',serif;font-weight:700;
   font-size:1.12rem;margin-bottom:.25rem;
@@ -295,6 +299,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
           <a role="menuitem" href="salones.html">Reglas de los salones</a>
         </div>
       </div>
+      <a href="bolsa.html">Bolsa de trabajo</a>
       <a href="egresados.html">Egresados</a>
       <a href="horarios.html">Horarios</a>
       <a href="calendario.html">Calendario</a>
@@ -316,6 +321,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
     <a href="reglamento.html">Reglamento del estudiante</a>
     <a href="salones.html">Reglas de los salones</a>
     <p class="mm-grupo">Secciones</p>
+    <a href="bolsa.html">Bolsa de trabajo</a>
     <a href="egresados.html">Egresados</a>
     <a href="horarios.html">Horarios</a>
     <a href="calendario.html">Calendario</a>
@@ -453,6 +459,26 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
     <a class="item" href="practicas.html"><span>Prácticas profesionales</span><span class="flecha" aria-hidden="true">→</span></a>
     <a class="item" href="servicio-social.html"><span>Servicio social</span><span class="flecha" aria-hidden="true">→</span></a>
     <a class="item" href="horas.html"><span>Horas extracurriculares</span><span class="flecha" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section class="seccion" aria-labelledby="t-bolsa-idx">
+  <div class="seccion-cabeza">
+    <h2 id="t-bolsa-idx">Bolsa de trabajo PAS</h2>
+    <div class="regla" aria-hidden="true"></div>
+  </div>
+  <p class="seccion-nota">Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, revisadas y actualizadas cada mes por la coordinación. Abierta a quienes están por egresar y a egresad@s.</p>
+  <div class="duo">
+    <a class="tarjeta t-bolsa" href="bolsa.html">
+      <div class="icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><path d="M2 13h20"/></svg></div>
+      <h3>Ver las vacantes del mes</h3>
+      <p>Puestos, prácticas y programas de primer empleo, con enlace directo para postularte con el empleador.</p>
+    </a>
+    <a class="tarjeta t-comparte" href="comparte.html">
+      <div class="icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></div>
+      <h3>¿Viste una vacante? Compártela</h3>
+      <p>Repórtala en un minuto y sin registro. Si trabajas en el sector, tu dato alimenta la bolsa del próximo mes.</p>
+    </a>
   </div>
 </section>
 
