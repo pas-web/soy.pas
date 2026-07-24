@@ -164,6 +164,14 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
 #form-vacante .boton-form[disabled]{opacity:.6;cursor:wait;transform:none}
 .vac-gracias{margin-top:.7rem;font-size:.85rem;font-weight:600;color:var(--teal);background:#E7F3EF;border-radius:10px;padding:.5rem .8rem}
 </style>
+<!-- Microsoft Clarity · medición anónima de uso del sitio (proyecto soy.pas) -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xr967ke69r");
+</script>
 </head>
 <body>
 
@@ -259,9 +267,9 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       <!-- ▼ FORM DE VACANTES: envía en segundo plano al Google Form "Comparte una vacante · Bolsa PAS" -->
       <form id="form-vacante" action="https://docs.google.com/forms/d/e/1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw/formResponse" method="POST" target="iframe-vacante">
         <label class="campo-etiqueta" for="vac-url">Enlace de la vacante</label>
-        <input class="campo" type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url">
+        <input class="campo" type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url" data-clarity-mask="true">
         <label class="campo-etiqueta" for="vac-coment">Comentario (opcional)</label>
-        <textarea class="campo" id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante"></textarea>
+        <textarea class="campo" id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante" data-clarity-mask="true"></textarea>
         <button class="boton boton-form" type="submit">Enviar vacante</button>
         <p id="vac-gracias" class="vac-gracias" hidden>¡Recibida! Gracias por alimentar la bolsa: se revisa en el próximo escaneo mensual.</p>
       </form>
@@ -324,6 +332,9 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       Campus Concá · Sierra Gorda, Querétaro
     </div>
   </div>
+  <p class="aviso-analitica" style="max-width:1120px;margin:1.1rem auto 0;padding:0 1.25rem;font-size:.74rem;line-height:1.55;opacity:.72">
+    Este sitio mide de forma anónima qué páginas se consultan y en qué se hace clic, con el único fin de mejorar su contenido. No se recopila información que identifique a las personas ni lo que escriben en los formularios.
+  </p>
 </footer>
 
 <script>
