@@ -2,46 +2,10 @@
 <html lang="es">
 <head>
 <!--
-  ═══════════════════════════════════════════════════════════════
-  PAS · Subpágina: Egresados · Junio 2026
-
-  DECISIONES INTERPRETATIVAS
-  · Hero en azul PAS: retoma el color de la banda de egresados
-    de la portada, cerrando la coherencia visual entre ambas.
-  · Ornamento: el correcaminos de grabado — la pieza del
-    repertorio serrano que mejor le queda a una página de
-    salida al mundo laboral.
-  · El contenido se organizó en dos cajas de herramientas:
-    "Primeros trámites" (cédula, plantilla CV, conversatorio)
-    y "Tu presencia profesional" (LinkedIn y OCCMundial, cada
-    una con su guía en PDF y su video tutorial).
-  · Enlaces externos intactos (arquitectura híbrida), en
-    pestaña nueva con flecha ↗, convención del sitio.
-  · El enlace a cédula profesional se limpió del redirector
-    de Google (google.com/url?q=...) al destino real gob.mx.
-
-  ACTUALIZACIÓN · Julio 2026 — Seguimiento y bolsa de trabajo
-  · Nueva sección "Seguimiento de egresados": tarjeta de la
-    encuesta (pegar enlace donde dice PEGAR_ENLACE_ENCUESTA_AQUI)
-    y tarjeta del análisis del reporte, desactivada (clase
-    .proximamente) hasta que exista el documento — para activarla,
-    quitar la clase y poner el enlace.
-  · Nueva sección "Bolsa de trabajo PAS": las tarjetas de vacante
-    viven entre los marcadores BOLSA:INICIO y BOLSA:FIN; el
-    skill bolsa-pas regenera SOLO ese bloque cada mes. Lo mismo
-    con el Radar del mes (RADAR:INICIO/FIN). No editar
-    a mano dentro de esos marcadores.
-  · Las vacantes incluidas son EJEMPLOS de estructura (insignia
-    "Ejemplo"); el primer escaneo mensual las reemplaza.
-  · Tarjeta "Comparte una vacante": mini-formulario que envía en
-    segundo plano al Google Form "Comparte una vacante · Bolsa PAS"
-    (form 1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw);
-    las respuestas caen en la hoja "Respuestas · Comparte una
-    vacante · Bolsa PAS" del Drive de la coordinación. El skill
-    bolsa-pas las integra al filtrado de cada escaneo mensual.
-  · Alcance geográfico acordado de la bolsa: Querétaro,
-    Guanajuato, San Luis Potosí e Hidalgo.
-  ═══════════════════════════════════════════════════════════════
+  egresados.html · Recursos para egresad@s de la Licenciatura PAS
+  La bolsa de trabajo mensual vive ahora en bolsa.html (esa página es la que
+  regenera el skill bolsa-pas cada mes). Aquí solo queda la tarjeta de acceso.
+  El formulario "Comparte una vacante" vive en comparte.html.
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -220,7 +184,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       <span class="chip">Plataformas de empleo</span>
       <span class="chip">Perfil profesional</span>
       <span class="chip">Consejos de egresad@s</span>
-      <span class="chip">Bolsa de trabajo</span>
+      <a class="chip" href="bolsa.html" style="text-decoration:none;color:inherit">Bolsa de trabajo</a>
     </div>
   </div>
   <!-- Correcaminos de grabado, en plena salida -->
@@ -256,11 +220,11 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       <p>El trámite electrónico de tu cédula ante la SEP, requisito para ejercer.</p>
       <p class="abrir">Abrir ↗</p>
     </a>
-    <a class="recurso" href="https://drive.google.com/file/d/1QslJ2JdZw5RIrCNLikruQ_1aNPVkGiEK/view?usp=sharing" target="_blank" rel="noopener">
-      <p class="tipo">Formato · Drive</p>
+    <a class="recurso" href="https://docs.google.com/document/d/1ysklkEI3vA9vx-z9xp4N8h9JA74o9tbLY5JY5X54t_Q/copy" target="_blank" rel="noopener" style="border-color:var(--milpa)">
+      <p class="tipo" style="color:var(--milpa)">Plantilla editable · Google Docs</p>
       <h3>Plantilla de CV</h3>
-      <p>Una base profesional para armar tu currículum desde cero.</p>
-      <p class="abrir">Abrir ↗</p>
+      <p>Un clic crea tu propia copia editable, con estructura pensada para perfiles PAS. Llénala desde el celular y descárgala en PDF cuando vayas a postularte.</p>
+      <p class="abrir">Crear mi copia ↗</p>
     </a>
     <a class="recurso" href="https://drive.google.com/file/d/1bIZZogcNnYQiN47bmzvjHMTo-780I6K-/view?usp=sharing" target="_blank" rel="noopener">
       <p class="tipo">Comunidad · Drive</p>
@@ -314,26 +278,29 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     <h2 id="t-seguimiento">Seguimiento de egresados</h2>
     <div class="regla" aria-hidden="true"></div>
   </div>
-  <p class="seccion-nota">Tu experiencia laboral es la brújula del plan de estudios. Contesta la encuesta y consulta lo que la comunidad de egresad@s nos ha contado.</p>
+  <p class="seccion-nota">Tu experiencia laboral es la brújula del plan de estudios. Contesta la encuesta institucional y consulta lo que la comunidad de egresad@s ya nos ha contado.</p>
   <div class="seguimiento">
 
     <div class="tarjeta-accion">
       <p class="tipo">Encuesta · 10 minutos</p>
       <h3>Encuesta de seguimiento de egresados</h3>
       <p>Cuéntanos dónde estás y qué haces: en qué trabajas, qué te sirvió de la carrera y qué le faltó. Con tus respuestas ajustamos el plan de estudios y los apoyos a egresad@s.</p>
-      <!-- ▼ ENCUESTA: pegar aquí el enlace del Google Form (reemplazar PEGAR_ENLACE_ENCUESTA_AQUI) -->
-      <a class="boton" href="PEGAR_ENLACE_ENCUESTA_AQUI" target="_blank" rel="noopener">Contestar la encuesta ↗</a>
+      <!-- ▼ ENCUESTA: Google Form de seguimiento de egresados -->
+      <a class="boton" href="https://docs.google.com/forms/d/e/1FAIpQLSdjmYm1BwhXcZRVx1UYif8N4HmtK_o-rSCOMGREWCjXQq0ffg/viewform" target="_blank" rel="noopener">Contestar la encuesta ↗</a>
     </div>
 
-    <!-- ▼ ANÁLISIS DEL REPORTE: cuando exista el documento,
-         (1) quitar la clase "proximamente" del div,
-         (2) sustituir la etiqueta-prox por:
-         <a class="boton" href="ENLACE_AL_ANALISIS" target="_blank" rel="noopener">Leer el análisis ↗</a> -->
-    <div class="tarjeta-accion proximamente">
-      <p class="tipo">Documento · Coordinación PAS</p>
-      <h3>Análisis del reporte de egresados</h3>
-      <p>¿Dónde trabajan las y los egresados PAS? ¿En qué sectores, con qué ingresos, con qué retos? El análisis del reporte más reciente, en lenguaje claro.</p>
-      <span class="etiqueta-prox">Próximamente</span>
+    <!-- ▼ ANÁLISIS DEL REPORTE: sustituir el PDF y las cifras destacadas
+         cuando la FCN publique un reporte de seguimiento más reciente. -->
+    <div class="tarjeta-accion">
+      <p class="tipo">Infografía · 4 páginas · Generaciones 2022–2023</p>
+      <h3>¿Qué pasa con quienes egresan de PAS?</h3>
+      <p>Dónde trabajan, cuánto tardaron en colocarse, qué ganan, qué les sirvió de la carrera y qué les faltó. El reporte institucional de seguimiento, resumido en lenguaje claro.</p>
+      <div class="metas" style="margin:.75rem 0 .2rem">
+        <span class="meta">88.9% con empleo (gen. 2023)</span>
+        <span class="meta">6 sectores distintos</span>
+        <span class="meta">Titulación: el reto núm. 1</span>
+      </div>
+      <a class="boton" href="infografia-egresados-2022-2023.pdf" target="_blank" rel="noopener">Ver la infografía ↗</a>
     </div>
 
   </div>
@@ -344,102 +311,21 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     <h2 id="t-bolsa">Bolsa de trabajo PAS</h2>
     <div class="regla" aria-hidden="true"></div>
   </div>
-  <p class="seccion-nota">Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, curadas cada mes por la coordinación. Postúlate directamente con el empleador.</p>
-
-<!-- BOLSA:INICIO — este bloque lo regenera el skill bolsa-pas cada mes; no editar a mano -->
-  <span class="actualizado">Última actualización · julio 2026 · vacantes de ejemplo</span>
-  <div class="vacantes">
-
-    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
-      <p class="sector">Producción agrícola<span class="insignia-ejemplo">Ejemplo</span></p>
-      <h3>Técnico/a de campo en berries</h3>
-      <p class="empleador">Agroexportadora regional · El Marqués, Qro.</p>
-      <div class="metas">
-        <span class="meta">Tiempo completo</span>
-        <span class="meta cierre">Cierra 15 ago</span>
-      </div>
-      <p class="abrir">Ver vacante ↗</p>
-    </a>
-
-    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
-      <p class="sector">Conservación<span class="insignia-ejemplo">Ejemplo</span></p>
-      <h3>Promotor/a comunitario ambiental</h3>
-      <p class="empleador">OSC de conservación · Jalpan de Serra, Qro.</p>
-      <div class="metas">
-        <span class="meta">Proyecto · 12 meses</span>
-        <span class="meta cierre">Cierra 31 jul</span>
-      </div>
-      <p class="abrir">Ver vacante ↗</p>
-    </a>
-
-    <a class="vacante" href="https://www.occ.com.mx/" target="_blank" rel="noopener">
-      <p class="sector">Agroindustria<span class="insignia-ejemplo">Ejemplo</span></p>
-      <h3>Supervisor/a de inocuidad</h3>
-      <p class="empleador">Planta agroindustrial · Celaya, Gto.</p>
-      <div class="metas">
-        <span class="meta">Tiempo completo</span>
-        <span class="meta">Sin fecha de cierre</span>
-      </div>
-      <p class="abrir">Ver vacante ↗</p>
-    </a>
-
-  </div>
-<!-- BOLSA:FIN -->
-
-  <div class="seguimiento" style="margin-top:.9rem">
+  <p class="seccion-nota">La bolsa mensual de vacantes tiene ahora su propia página, con las oportunidades del mes y el Radar del mercado laboral.</p>
+  <div class="seguimiento">
     <div class="tarjeta-accion">
-      <p class="tipo">Comunidad · Google Form</p>
+      <p class="tipo">Vacantes del mes</p>
+      <h3>Consulta la bolsa de trabajo</h3>
+      <p>Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, curadas cada mes por la coordinación, con enlace directo para postularte.</p>
+      <a class="boton" href="bolsa.html">Ir a la bolsa de trabajo →</a>
+    </div>
+    <div class="tarjeta-accion">
+      <p class="tipo">Comunidad</p>
       <h3>¿Viste una vacante? Compártela</h3>
-      <p>Quien ya trabaja en el sector es el mejor radar: si en tu empresa, rancho, dependencia u organización hay una vacante para perfiles PAS, repórtala aquí y la sumamos a la bolsa del mes.</p>
-      <!-- ▼ FORM DE VACANTES: envía en segundo plano al Google Form "Comparte una vacante · Bolsa PAS" -->
-      <form id="form-vacante" action="https://docs.google.com/forms/d/e/1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw/formResponse" method="POST" target="iframe-vacante">
-        <label class="campo-etiqueta" for="vac-url">Enlace de la vacante</label>
-        <input class="campo" type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url">
-        <label class="campo-etiqueta" for="vac-coment">Comentario (opcional)</label>
-        <textarea class="campo" id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante"></textarea>
-        <button class="boton boton-form" type="submit">Enviar vacante</button>
-        <p id="vac-gracias" class="vac-gracias" hidden>¡Recibida! Gracias por alimentar la bolsa: se revisa en el próximo escaneo mensual.</p>
-      </form>
-      <iframe name="iframe-vacante" id="iframe-vacante" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
-    </div>
-    <div class="tarjeta-accion">
-      <p class="tipo">Aviso</p>
-      <h3>Cómo funciona esta bolsa</h3>
-      <p>La coordinación revisa portales de empleo, dependencias y empresas del sector una vez al mes y publica aquí lo relevante para perfiles PAS. Las postulaciones son directas con el empleador; la UAQ solo difunde. Verifica siempre la vigencia en el sitio original.</p>
+      <p>Reporta en un minuto una vacante para perfiles PAS, sin registrarte. También puedes reenviar el enlace directo a colegas por WhatsApp: <a href="https://pas-web.github.io/soy.pas/comparte.html">https://pas-web.github.io/soy.pas/comparte.html</a></p>
+      <a class="boton" href="comparte.html">Compartir una vacante →</a>
     </div>
   </div>
-
-<!-- RADAR:INICIO — este bloque lo regenera el skill bolsa-pas cada mes; no editar a mano -->
-  <div class="radar" aria-labelledby="t-radar">
-    <h3 id="t-radar">Radar del mes<span class="insignia-ejemplo">Ejemplo</span></h3>
-    <p class="radar-nota">Señales del mercado laboral agropecuario y ambiental, actualizadas con cada escaneo mensual.</p>
-    <div class="radar-cols">
-      <div class="radar-col">
-        <h4>A quién seguir</h4>
-        <ul>
-          <li>SADER Querétaro — convocatorias y programas estatales</li>
-          <li>CONANP Sierra Gorda — plazas y voluntariados en la reserva</li>
-          <li>Consejos estatales agropecuarios — ferias de empleo del sector</li>
-        </ul>
-      </div>
-      <div class="radar-col">
-        <h4>Se mueve en el sector</h4>
-        <ul>
-          <li>Crece la demanda de técnicos en agricultura protegida en el Bajío</li>
-          <li>Nuevas reglas de operación de programas de campo — revisa fechas</li>
-        </ul>
-      </div>
-      <div class="radar-col">
-        <h4>Fortalece tu CV</h4>
-        <ul>
-          <li>Certificación en buenas prácticas agrícolas (SENASICA)</li>
-          <li>Curso corto de QGIS o percepción remota básica</li>
-          <li>Excel intermedio: filtros, tablas dinámicas, gráficas</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-<!-- RADAR:FIN -->
 </section>
 
 <div class="ayuda">
@@ -459,29 +345,5 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
   </div>
 </footer>
 
-<script>
-(function(){
-  var f = document.getElementById('form-vacante');
-  if (!f) return;
-  var marco = document.getElementById('iframe-vacante');
-  var gracias = document.getElementById('vac-gracias');
-  var boton = f.querySelector('.boton-form');
-  var enviado = false;
-  f.addEventListener('submit', function(){
-    enviado = true;
-    boton.disabled = true;
-    boton.textContent = 'Enviando…';
-  });
-  marco.addEventListener('load', function(){
-    if (!enviado) return;   // ignora cargas que no vienen de un envío
-    enviado = false;
-    f.reset();
-    boton.disabled = false;
-    boton.textContent = 'Enviar vacante';
-    gracias.hidden = false;
-    setTimeout(function(){ gracias.hidden = true; }, 9000);
-  });
-})();
-</script>
 </body>
 </html>
