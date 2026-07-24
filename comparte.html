@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparte una vacante · Bolsa PAS</title>
+<meta name="description" content="Reporta en un minuto una vacante para egresad@s de la Licenciatura PAS (UAQ Campus Concá). Solo pega el enlace y envía.">
+<style>
+:root{--azul-pas:#1D4D77;--monte:#0E3B2E;--milpa:#2E9E4F;--crema:#FAF7F0;--teal:#14706B;--crema-2:#F1ECDF;--azul-oscuro:#143A5C}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--crema);color:#22303a;min-height:100vh;display:flex;flex-direction:column}
+.cinta{background:var(--monte);color:#EAF3EE;padding:.55rem 1rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:1.4rem 1rem}
+.caja{background:#fff;border:1px solid #E3DCC9;border-radius:18px;padding:1.7rem 1.4rem;max-width:480px;width:100%;box-shadow:0 8px 28px rgba(20,58,92,.08)}
+h1{color:var(--azul-pas);font-size:1.45rem;margin-bottom:.45rem}
+.caja>p{font-size:.92rem;line-height:1.55;color:#4a5a66;margin-bottom:1.1rem}
+label{display:block;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin:.8rem 0 .3rem}
+input,textarea{width:100%;font:inherit;font-size:.95rem;padding:.65rem .8rem;border:1px solid #D8D0BC;border-radius:10px;background:var(--crema-2)}
+input:focus,textarea:focus{outline:2px solid var(--milpa);background:#fff}
+button{margin-top:1.1rem;width:100%;font:inherit;font-weight:700;font-size:1rem;color:#fff;background:var(--azul-pas);border:none;border-radius:999px;padding:.75rem 1rem;cursor:pointer}
+button:disabled{opacity:.6}
+.gracias{margin-top:.9rem;background:#E7F5EB;color:#1d6b35;border:1px solid #BCE0C8;border-radius:10px;padding:.7rem .9rem;font-size:.9rem}
+footer{text-align:center;font-size:.78rem;color:#6b7a86;padding:1rem;line-height:1.5}
+footer a{color:var(--teal)}
+</style>
+</head>
+<body>
+<div class="cinta">Licenciatura PAS · UAQ Campus Concá</div>
+<main>
+  <div class="caja">
+    <h1>¿Viste una vacante? Compártela</h1>
+    <p>Si sabes de un puesto para perfiles agropecuarios o ambientales, pega aquí el enlace. La coordinación lo revisa y lo suma a la bolsa mensual de egresad@s PAS. Toma un minuto.</p>
+    <form id="form-vacante" action="https://docs.google.com/forms/d/e/1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw/formResponse" method="POST" target="iframe-vacante">
+      <label for="vac-url">Enlace de la vacante</label>
+      <input type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url">
+      <label for="vac-coment">Comentario (opcional)</label>
+      <textarea id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante"></textarea>
+      <button type="submit">Enviar vacante</button>
+      <p id="vac-gracias" class="gracias" hidden>¡Recibida! Gracias por alimentar la bolsa: se revisa en el próximo escaneo mensual.</p>
+    </form>
+    <iframe name="iframe-vacante" id="iframe-vacante" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
+  </div>
+</main>
+<footer>Bolsa de trabajo PAS · <a href="https://pas-web.github.io/soy.pas/bolsa.html">Ver las vacantes del mes</a><br>Universidad Autónoma de Querétaro · Facultad de Ciencias Naturales</footer>
+<script>
+(function(){
+  var f = document.getElementById('form-vacante');
+  if (!f) return;
+  var marco = document.getElementById('iframe-vacante');
+  var gracias = document.getElementById('vac-gracias');
+  var boton = f.querySelector('.boton-form');
+  var enviado = false;
+  f.addEventListener('submit', function(){
+    enviado = true;
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+  });
+  marco.addEventListener('load', function(){
+    if (!enviado) return;   // ignora cargas que no vienen de un envío
+    enviado = false;
+    f.reset();
+    boton.disabled = false;
+    boton.textContent = 'Enviar vacante';
+    gracias.hidden = false;
+    setTimeout(function(){ gracias.hidden = true; }, 9000);
+  });
+})();
+</script>
+</body>
+</html>
