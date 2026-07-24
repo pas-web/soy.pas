@@ -23,6 +23,14 @@ button:disabled{opacity:.6}
 footer{text-align:center;font-size:.78rem;color:#6b7a86;padding:1rem;line-height:1.5}
 footer a{color:var(--teal)}
 </style>
+<!-- Microsoft Clarity · medición anónima de uso del sitio (proyecto soy.pas) -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xr967ke69r");
+</script>
 </head>
 <body>
 <div class="cinta">Licenciatura PAS · UAQ Campus Concá</div>
@@ -32,16 +40,19 @@ footer a{color:var(--teal)}
     <p>Si sabes de un puesto para perfiles agropecuarios o ambientales, pega aquí el enlace. La coordinación lo revisa y lo suma a la bolsa mensual de egresad@s PAS. Toma un minuto.</p>
     <form id="form-vacante" action="https://docs.google.com/forms/d/e/1FAIpQLScSqtKR67Ycm74CxoeyGuK_IQxDEnKIVga9LqmoG5YWMX8crw/formResponse" method="POST" target="iframe-vacante">
       <label for="vac-url">Enlace de la vacante</label>
-      <input type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url">
+      <input type="url" id="vac-url" name="entry.2027834211" placeholder="https:// — pega aquí el enlace" required inputmode="url" data-clarity-mask="true">
       <label for="vac-coment">Comentario (opcional)</label>
-      <textarea id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante"></textarea>
+      <textarea id="vac-coment" name="entry.127946310" rows="2" placeholder="Quién eres o de qué es la vacante" data-clarity-mask="true"></textarea>
       <button type="submit">Enviar vacante</button>
       <p id="vac-gracias" class="gracias" hidden>¡Recibida! Gracias por alimentar la bolsa: se revisa en el próximo escaneo mensual.</p>
     </form>
     <iframe name="iframe-vacante" id="iframe-vacante" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
   </div>
 </main>
-<footer>Bolsa de trabajo PAS · <a href="https://pas-web.github.io/soy.pas/bolsa.html">Ver las vacantes del mes</a><br>Universidad Autónoma de Querétaro · Facultad de Ciencias Naturales</footer>
+<footer>Bolsa de trabajo PAS · <a href="https://pas-web.github.io/soy.pas/bolsa.html">Ver las vacantes del mes</a><br>Universidad Autónoma de Querétaro · Facultad de Ciencias Naturales  <p class="aviso-analitica" style="max-width:1120px;margin:1.1rem auto 0;padding:0 1.25rem;font-size:.74rem;line-height:1.55;opacity:.72">
+    Este sitio mide de forma anónima qué páginas se consultan y en qué se hace clic, con el único fin de mejorar su contenido. No se recopila información que identifique a las personas ni lo que escriben en los formularios.
+  </p>
+</footer>
 <script>
 (function(){
   var f = document.getElementById('form-vacante');
