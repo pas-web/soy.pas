@@ -118,6 +118,12 @@ h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2rem,4.6vw,3.3re
 
 /* ── Bolsa de trabajo ── */
 .actualizado{display:inline-block;font-size:.78rem;font-weight:700;color:var(--teal);background:#E7F3EF;border-radius:999px;padding:.3rem .85rem;margin-bottom:1.2rem}
+.nav-bolsa{position:sticky;top:74px;z-index:40;display:flex;flex-wrap:wrap;gap:.45rem;background:var(--crema);border-bottom:1px solid var(--linea);padding:.7rem 0;margin-bottom:1.3rem}
+@media(max-width:680px){.nav-bolsa{top:66px}}
+.nav-bolsa a{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;font-size:.82rem;font-weight:700;color:var(--azul-pas);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:.4rem .85rem;transition:border-color .18s,background .18s,transform .18s}
+.nav-bolsa a:hover,.nav-bolsa a:focus-visible{border-color:var(--azul-pas);background:#E2EEF7;transform:translateY(-1px)}
+.nav-bolsa .n{font-size:.72rem;font-weight:700;color:var(--teal);background:#E7F3EF;border-radius:999px;padding:.05rem .45rem}
+.categoria{scroll-margin-top:132px}
 .vacantes{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
 @media(max-width:780px){.vacantes{grid-template-columns:1fr}}
 .vacante{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:1.2rem 1.2rem 1.05rem;text-decoration:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
@@ -208,12 +214,30 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
   <p class="seccion-nota">Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí, Hidalgo y Estado de México, más convocatorias de apoyos y capacitaciones de alcance nacional, curadas cada mes por la coordinación. Postúlate directamente con el empleador o la institución convocante.</p>
 
 <!-- BOLSA:INICIO — este bloque lo regenera el skill bolsa-pas cada mes; no editar a mano -->
-  <span class="actualizado">Última actualización · Agosto 2026 · 22 oportunidades</span>
+  <span class="actualizado">Última actualización · Agosto 2026 · 27 oportunidades</span>
 
-  <section class="categoria">
+  <nav class="nav-bolsa" aria-label="Secciones de la bolsa">
+    <a href="#c-empleos">Empleos <span class="n">13</span></a>
+    <a href="#c-becas">Becas y primer empleo <span class="n">2</span></a>
+    <a href="#c-apoyos">Apoyos para proyectos <span class="n">5</span></a>
+    <a href="#c-capacitaciones">Capacitaciones <span class="n">4</span></a>
+    <a href="#c-registros">Convocatorias y registros <span class="n">3</span></a>
+  </nav>
+
+  <section class="categoria" id="c-empleos">
     <h3 class="cat-titulo">Empleos</h3>
     <p style="font-size:.88rem;color:var(--tinta-suave);margin:-.45rem 0 .9rem">Querétaro, Guanajuato, San Luis Potosí, Hidalgo y Estado de México.</p>
     <div class="vacantes">
+      <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=17fa6ce0419c90dd" target="_blank" rel="noopener">
+        <p class="sector">Producción agrícola</p>
+        <h3>Especialista de inocuidad y sanidad vegetal</h3>
+        <p class="empleador">Aguilares S.P.R. · Villagrán, Gto.</p>
+        <div class="metas">
+          <span class="meta">Tiempo completo · pide 6 meses</span>
+          <span class="meta">Requiere vehículo propio</span>
+        </div>
+        <p class="abrir">Ver oportunidad ↗</p>
+      </a>
       <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=c073019eaffc3174" target="_blank" rel="noopener">
         <p class="sector">Extensión rural</p>
         <h3>Ingeniero asesor técnico agrícola</h3>
@@ -234,6 +258,26 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
         </div>
         <p class="abrir">Ver oportunidad ↗</p>
       </a>
+      <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=5894ea26f33925be" target="_blank" rel="noopener">
+        <p class="sector">Producción agrícola</p>
+        <h3>Encargado de inocuidad</h3>
+        <p class="empleador">Agricultores El Fuerte · Pedro Escobedo, Qro.</p>
+        <div class="metas">
+          <span class="meta">Tiempo completo · $17–23 mil/mes</span>
+          <span class="meta">GlobalG.A.P., PrimusGFS, HACCP</span>
+        </div>
+        <p class="abrir">Ver oportunidad ↗</p>
+      </a>
+      <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=f3b05c1a55eb3875" target="_blank" rel="noopener">
+        <p class="sector">Producción pecuaria</p>
+        <h3>Animal breeder · granjas porcinas</h3>
+        <p class="empleador">Pipestone · contratación en León, Gto., para trabajar en EE. UU.</p>
+        <div class="metas">
+          <span class="meta">Tiempo completo · $40–50 mil/mes</span>
+          <span class="meta">Sin experiencia previa · pide título y cédula</span>
+        </div>
+        <p class="abrir">Ver oportunidad ↗</p>
+      </a>
       <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=e6c9979f0b837f73" target="_blank" rel="noopener">
         <p class="sector">Agroindustria</p>
         <h3>Supervisor de producción (champiñón)</h3>
@@ -241,6 +285,26 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
         <div class="metas">
           <span class="meta">Tiempo completo · desde $13 mil/mes</span>
           <span class="meta">Pide 1 año de experiencia</span>
+        </div>
+        <p class="abrir">Ver oportunidad ↗</p>
+      </a>
+      <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=83e7446c400814c7" target="_blank" rel="noopener">
+        <p class="sector">Producción agrícola</p>
+        <h3>Supervisor de producción</h3>
+        <p class="empleador">Productos Agrícolas La Campiña · Santa Elena, Gto.</p>
+        <div class="metas">
+          <span class="meta">Tiempo completo · $8–12 mil/mes</span>
+          <span class="meta">Desde bachillerato · puerta de entrada</span>
+        </div>
+        <p class="abrir">Ver oportunidad ↗</p>
+      </a>
+      <a class="vacante" data-desde="2026-08" href="https://mx.indeed.com/viewjob?jk=11d524ebdbf44696" target="_blank" rel="noopener">
+        <p class="sector">Investigación</p>
+        <h3>Coordinador de desarrollo · ensayos de campo</h3>
+        <p class="empleador">Taylor Farms de México · San José Iturbide, Gto.</p>
+        <div class="metas">
+          <span class="meta">Tiempo completo · pide 3 años e inglés</span>
+          <span class="meta">Diseño de ensayos y análisis estadístico</span>
         </div>
         <p class="abrir">Ver oportunidad ↗</p>
       </a>
@@ -297,7 +361,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     </div>
   </section>
 
-  <section class="categoria">
+  <section class="categoria" id="c-becas">
     <h3 class="cat-titulo">Becas y primer empleo</h3>
     <p style="font-size:.88rem;color:var(--tinta-suave);margin:-.45rem 0 .9rem">Programas de entrada al sector para quien apenas egresa.</p>
     <div class="vacantes">
@@ -324,7 +388,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     </div>
   </section>
 
-  <section class="categoria">
+  <section class="categoria" id="c-apoyos">
     <h3 class="cat-titulo">Apoyos para proyectos</h3>
     <p style="font-size:.88rem;color:var(--tinta-suave);margin:-.45rem 0 .9rem">Convocatorias de financiamiento y de asesoría técnica pagada. A diferencia de los empleos, aquí el alcance es nacional o de varios estados: sirven lo mismo a quien trabaja por su cuenta, a quien acompaña a un grupo de productores o a quien quiere echar a andar un proyecto propio.</p>
     <div class="vacantes">
@@ -381,7 +445,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     </div>
   </section>
 
-  <section class="categoria">
+  <section class="categoria" id="c-capacitaciones">
     <h3 class="cat-titulo">Capacitaciones</h3>
     <p style="font-size:.88rem;color:var(--tinta-suave);margin:-.45rem 0 .9rem">Cursos, diplomados y becas de formación, casi todos en línea y sin costo. También de alcance nacional o internacional: se toman desde cualquier municipio de la Sierra.</p>
     <div class="vacantes">
@@ -428,7 +492,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
     </div>
   </section>
 
-  <section class="categoria">
+  <section class="categoria" id="c-registros">
     <h3 class="cat-titulo">Convocatorias y registros</h3>
     <p style="font-size:.88rem;color:var(--tinta-suave);margin:-.45rem 0 .9rem">Padrones y bolsas donde conviene estar inscrito aunque hoy no busques trabajo.</p>
     <div class="vacantes">
