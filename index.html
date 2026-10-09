@@ -196,7 +196,6 @@ h1 .acento{color:#7FD89B;font-style:italic;font-weight:600}
 .t-consejo  .icono{background:#F4EEDC;color:#8A6D1F}
 .t-cal      .icono{background:#DDE8F2;color:var(--azul-pas)}
 .t-bolsa    .icono{background:#E0F0EE;color:var(--teal)}
-.t-comparte .icono{background:#EAF3E9;color:var(--milpa)}
 .duo{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 @media(max-width:700px){.duo{grid-template-columns:1fr}}
 .tarjeta h3{
@@ -476,16 +475,11 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
     <div class="regla" aria-hidden="true"></div>
   </div>
   <p class="seccion-nota">Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, revisadas y actualizadas cada mes por la coordinación. Abierta a quienes están por egresar y a egresad@s.</p>
-  <div class="duo">
+  <div class="duo" style="grid-template-columns:1fr">
     <a class="tarjeta t-bolsa" href="bolsa.html">
       <div class="icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><path d="M2 13h20"/></svg></div>
       <h3>Ver las vacantes del mes</h3>
       <p>Puestos, prácticas y programas de primer empleo, con enlace directo para postularte con el empleador.</p>
-    </a>
-    <a class="tarjeta t-comparte" href="comparte.html">
-      <div class="icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></div>
-      <h3>¿Viste una vacante? Compártela</h3>
-      <p>Repórtala en un minuto y sin registro. Si trabajas en el sector, tu dato alimenta la bolsa del próximo mes.</p>
     </a>
   </div>
 </section>

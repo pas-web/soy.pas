@@ -5,7 +5,6 @@
   egresados.html · Recursos para egresad@s de la Licenciatura PAS
   La bolsa de trabajo mensual vive ahora en bolsa.html (esa página es la que
   regenera el skill bolsa-pas cada mes). Aquí solo queda la tarjeta de acceso.
-  El formulario "Comparte una vacante" vive en comparte.html.
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -153,15 +152,6 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
 @media(max-width:560px){.pie-inner{flex-direction:column;align-items:flex-start}.pie-texto{text-align:left}}
 :focus-visible{outline:3px solid var(--azul-pas);outline-offset:2px}
 
-/* ── Mini-form "Comparte una vacante" (envía al Google Form en segundo plano) ── */
-#form-vacante{margin-top:.9rem}
-#form-vacante .campo-etiqueta{display:block;font-size:.78rem;font-weight:700;color:var(--monte);margin:.6rem 0 .25rem}
-#form-vacante .campo{width:100%;font-family:'Instrument Sans',system-ui,sans-serif;font-size:.9rem;color:var(--tinta);background:var(--crema);border:1px solid var(--linea);border-radius:10px;padding:.55rem .8rem}
-#form-vacante .campo:focus{outline:2px solid var(--azul-pas);outline-offset:1px;background:#fff}
-#form-vacante textarea.campo{resize:vertical;min-height:2.6rem}
-#form-vacante .boton-form{border:0;cursor:pointer;font-family:inherit}
-#form-vacante .boton-form[disabled]{opacity:.6;cursor:wait;transform:none}
-.vac-gracias{margin-top:.7rem;font-size:.85rem;font-weight:600;color:var(--teal);background:#E7F3EF;border-radius:10px;padding:.5rem .8rem}
 </style>
 <!-- Microsoft Clarity · medición anónima de uso del sitio (proyecto soy.pas) -->
 <script type="text/javascript">
@@ -326,12 +316,6 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3.
       <h3>Consulta la bolsa de trabajo</h3>
       <p>Vacantes del sector agropecuario y ambiental en Querétaro, Guanajuato, San Luis Potosí e Hidalgo, curadas cada mes por la coordinación, con enlace directo para postularte.</p>
       <a class="boton" href="bolsa.html">Ir a la bolsa de trabajo →</a>
-    </div>
-    <div class="tarjeta-accion">
-      <p class="tipo">Comunidad</p>
-      <h3>¿Viste una vacante? Compártela</h3>
-      <p>Reporta en un minuto una vacante para perfiles PAS, sin registrarte. También puedes reenviar el enlace directo a colegas por WhatsApp: <a href="https://pas-web.github.io/soy.pas/comparte.html">https://pas-web.github.io/soy.pas/comparte.html</a></p>
-      <a class="boton" href="comparte.html">Compartir una vacante →</a>
     </div>
   </div>
 </section>
