@@ -203,8 +203,14 @@ h1 .acento{color:#7FD89B;font-style:italic;font-weight:600}
   font-size:1.12rem;margin-bottom:.25rem;
 }
 .tarjeta p{font-size:.86rem;color:var(--tinta-suave);line-height:1.45}
-.enlace-prof{grid-column:1/-1;justify-self:end;font-size:.85rem;font-weight:600;color:var(--tinta-suave);text-decoration:none;padding:.35rem .2rem}
-.enlace-prof:hover,.enlace-prof:focus-visible{color:var(--teal);text-decoration:underline}
+.enlace-prof{grid-column:1/-1;justify-self:end;display:inline-flex;align-items:center;gap:.55rem;font-size:.95rem;font-weight:700;color:var(--teal);
+  text-decoration:none;background:#fff;border:1.5px solid var(--teal);border-radius:999px;padding:.6rem 1.15rem .6rem .95rem;min-height:46px;
+  box-shadow:0 4px 14px rgba(14,59,46,.10);transition:background .15s,color .15s,transform .15s}
+.enlace-prof svg{flex:none}
+.enlace-prof .ep-ir{transition:transform .15s}
+.enlace-prof:hover,.enlace-prof:focus-visible{background:var(--teal);color:#fff}
+.enlace-prof:hover .ep-ir,.enlace-prof:focus-visible .ep-ir{transform:translateX(3px)}
+@media(max-width:480px){.enlace-prof{justify-self:stretch;justify-content:center}}
 @media(max-width:880px){.rapidos{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.rapidos{grid-template-columns:1fr}}
 
@@ -454,7 +460,7 @@ footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:0}
     <h3>Consejo interno</h3>
     <p>Solicitudes, sesiones y acuerdos del consejo.</p>
   </a>
-  <a class="enlace-prof" href="asistencia.html">Profesores →</a>
+  <a class="enlace-prof" href="asistencia.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>Profesores<span class="ep-ir" aria-hidden="true">→</span></a>
 </nav>
 
 <section class="seccion" aria-labelledby="t-procedimientos">

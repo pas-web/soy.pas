@@ -824,7 +824,7 @@ async function vistaHoy(){
       const b = $('#aEnviar'), c = clases.find(x => x.id === abierta);
       const lista = (grupos[c.sem] || []).map(a => ({id:a.id, e:pase[a.id] || 'P'}));
       ocupar(b, 'Registrando…');
-      const res = await api({a:'asistencia', prof, clave, clase:c, claveGrupo:$('#aGrupo').value, presentes:n ? n.value.trim() : '', lista, tema:$('#aTema').value});
+      const res = await api({a:'asistencia', prof, clave, clase:c, claveGrupo:$('#aGrupo').value, presentes:n ? n.value.trim() : '', lista, tema:''});
       if (!res.ok) { soltarBoton(b); $('#aGrupo').value = ''; return aviso($('#aAviso'), res.error); }
       abierta = ''; pintar(); brindis('✓ Clase registrada');
     });
@@ -845,7 +845,6 @@ function formAsistencia(c){
         <span class="contador"><button type="button" data-suma="-1" aria-label="Uno menos">−</button>
         <input type="number" id="aPresentes" min="0" max="99" inputmode="numeric" placeholder="0">
         <button type="button" data-suma="1" aria-label="Uno más">+</button></span></label>`}
-      <label class="campo"><span>Tema de hoy <small>Opcional</small></span><input type="text" id="aTema" maxlength="300"></label>
     </div>
     <div class="paso grupo">
       <p class="paso-rot">2 · El grupo</p>
