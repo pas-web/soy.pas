@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  PAS · Subpágina: Asistencia y avisos · Semestre 2026-2
+
+  QUÉ HACE
+  · Pasar asistencia: el profesor entra con su clave, ve sus clases de
+    hoy y registra la clase. El registro solo se guarda si alguien del
+    grupo escribe la clave del grupo en el mismo teléfono.
+  · Avisar ausencia: el profesor marca las clases que no dará, pone el
+    motivo y adjunta su evidencia.
+  · Espacios libres: vista abierta, por semana o por mes, de las clases
+    que no se darán. Otro profesor puede apartar el espacio.
+  · Al avisar, el servidor envía un correo a la coordinación con copia
+    al profesor y la evidencia adjunta.
+  · Coordinación: consulta con clave propia; semáforo de puntualidad
+    (UMBRAL, en minutos), validación manual, días sin clases y CSV.
+
+  DECISIONES INTERPRETATIVAS
+  · El horario (HORARIO) es copia del de horarios.html. Si cambia allá,
+    hay que cambiarlo aquí también.
+  · Sin API_URL la página corre en MODO PRUEBA: todo se guarda en el
+    navegador de quien la usa y las claves de prueba van en este
+    archivo. Con API_URL, las claves viven solo en la hoja de cálculo.
+  · El calendario público no muestra motivo ni evidencia: eso solo lo
+    ve la coordinación.
+  · Esta página no lleva la medición de uso del sitio, porque aquí se
+    escriben claves.
+  ═══════════════════════════════════════════════════════════════
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Asistencia y avisos · Licenciatura PAS · UAQ Campus Concá</title>
+<meta name="theme-color" content="#14706B">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root{
+  --monte:#0E3B2E;--teal:#14706B;--milpa:#2E9E4F;--azul-pas:#1D4D77;
+  --crema:#FAF7F0;--crema-2:#F1ECDF;--tinta:#1A2421;--tinta-suave:#4A5A53;
+  --linea:#D9D2C0;--max:1120px;--rojo:#A2412B;--rojo-bg:#F8E6DF;--ok-bg:#DFF1E4;--ok:#1B5E30;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--crema);color:var(--tinta);line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+[hidden]{display:none!important}
+
+.topbar{background:var(--crema);border-bottom:1px solid var(--linea);position:sticky;top:0;z-index:50}
+.topbar-inner{max-width:var(--max);margin:0 auto;padding:.65rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo-link img{height:52px;width:auto}
+.volver{font-size:.9rem;font-weight:600;text-decoration:none;color:var(--tinta-suave);white-space:nowrap}
+.volver:hover,.volver:focus-visible{color:var(--teal)}
+@media(max-width:680px){.logo-link img{height:44px}}
+
+.hero{background:linear-gradient(150deg,var(--teal) 0%,#0F5B52 70%,var(--monte) 140%);color:var(--crema)}
+.hero-inner{max-width:var(--max);margin:0 auto;padding:2.2rem 1.25rem 1.9rem}
+.eyebrow{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:#9CD4B8;margin-bottom:.7rem}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.06;letter-spacing:-.01em}
+.hero-bajada{margin-top:.7rem;max-width:58ch;font-size:clamp(.98rem,1.5vw,1.08rem);color:#D8E8DD}
+
+.prueba{background:#F6ECD3;border-bottom:1px solid #E2CF9C;color:#5B4310;font-size:.88rem}
+.prueba-inner{max-width:var(--max);margin:0 auto;padding:.7rem 1.25rem;display:flex;gap:.6rem 1.2rem;flex-wrap:wrap;align-items:center}
+.prueba code{background:#fff;border:1px solid #E2CF9C;border-radius:5px;padding:0 .35rem;font-size:.92em}
+.prueba label{display:inline-flex;gap:.4rem;align-items:center;font-weight:600}
+.prueba input{font:inherit;padding:.2rem .4rem;border:1px solid #CDB677;border-radius:6px;background:#fff}
+.enlace{background:none;border:none;font:inherit;font-weight:700;color:var(--teal);text-decoration:underline;cursor:pointer;padding:.2rem 0}
+
+.pestanas{max-width:var(--max);margin:0 auto;padding:1.3rem 1.25rem .2rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.pestanas button{font-family:inherit;font-weight:700;font-size:.95rem;border:1px solid var(--linea);background:#fff;color:var(--tinta-suave);
+  padding:.6rem 1.1rem;border-radius:999px;cursor:pointer;min-height:44px}
+.pestanas button:hover{border-color:var(--teal);color:var(--teal)}
+.pestanas button[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.pestanas .aparte{margin-left:auto}
+@media(max-width:620px){.pestanas .aparte{margin-left:0}}
+
+main{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem 0;min-height:40vh}
+h2{font-family:'Fraunces',serif;font-weight:700;font-size:1.45rem;color:var(--monte);line-height:1.2}
+h3{font-family:'Fraunces',serif;font-weight:700;font-size:1.08rem;color:var(--monte)}
+.sub{color:var(--tinta-suave);font-size:.95rem;margin-top:.2rem}
+.encabezado{display:flex;justify-content:space-between;align-items:flex-end;gap:.8rem;flex-wrap:wrap;margin:.6rem 0 1rem}
+.quien{font-size:.88rem;color:var(--tinta-suave)}
+
+.caja{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:1.2rem 1.25rem;margin-bottom:.9rem}
+.caja.angosta{max-width:460px}
+.campo{display:block;margin-top:.9rem}
+.campo>span{display:block;font-weight:700;font-size:.9rem;margin-bottom:.3rem}
+.campo small{display:block;font-weight:400;color:var(--tinta-suave);font-size:.82rem}
+input[type=text],input[type=password],input[type=number],input[type=date],input[type=month],select,textarea{
+  width:100%;font:inherit;font-size:1rem;padding:.7rem .8rem;border:1px solid #BFB79F;border-radius:10px;background:#fff;color:var(--tinta);min-height:48px}
+textarea{min-height:80px;resize:vertical}
+input[type=file]{font:inherit;font-size:.9rem;max-width:100%}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;font:inherit;font-weight:700;font-size:1rem;border:1px solid var(--teal);
+  background:var(--teal);color:#fff;border-radius:12px;padding:.75rem 1.3rem;min-height:50px;cursor:pointer;text-decoration:none}
+.boton:hover{background:#0F5B52}
+.boton.ancho{width:100%;margin-top:1.1rem}
+.boton.claro{background:#fff;color:var(--teal)}
+.boton.claro:hover{background:#EAF4F2}
+.boton.chico{min-height:40px;padding:.4rem .9rem;font-size:.88rem;border-radius:10px}
+.boton[disabled]{background:#E7E2D4;border-color:#D9D2C0;color:#7B7867;cursor:not-allowed}
+.fila{display:flex;gap:.8rem;flex-wrap:wrap}
+.fila>*{flex:1 1 150px}
+.recordar{display:flex;gap:.5rem;align-items:center;margin-top:.9rem;font-size:.9rem;color:var(--tinta-suave)}
+.recordar input,.marca input{width:22px;height:22px;accent-color:var(--teal);flex:none}
+
+.aviso{border-radius:10px;padding:.7rem .9rem;margin-top:.9rem;font-size:.93rem;font-weight:600}
+.aviso.mal{background:var(--rojo-bg);color:var(--rojo);border:1px solid #E7BFB1}
+.aviso.bien{background:var(--ok-bg);color:var(--ok);border:1px solid #B9DEC4}
+.vacio{color:var(--tinta-suave);font-style:italic;padding:.6rem 0}
+
+/* Clases de hoy */
+.clase{background:#fff;border:1px solid var(--linea);border-left:5px solid var(--ac,var(--teal));border-radius:14px;padding:1rem 1.1rem;margin-bottom:.8rem}
+.clase .hora{font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums;color:var(--tinta-suave)}
+.clase .mat{font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem;line-height:1.2;margin:.1rem 0 .15rem;color:var(--monte)}
+.clase .sem{font-size:.88rem;color:var(--tinta-suave)}
+.clase .pie-clase{margin-top:.8rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.estado{display:inline-flex;align-items:center;gap:.4rem;font-weight:700;font-size:.92rem;border-radius:999px;padding:.4rem .9rem}
+.estado.hecha{background:var(--ok-bg);color:var(--ok)}
+.estado.falta{background:var(--rojo-bg);color:var(--rojo)}
+.estado.espera{background:var(--crema-2);color:var(--tinta-suave)}
+.paso{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--linea)}
+.paso-rot{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.paso.grupo{background:#EEF6F3;border:1px solid #C5E0D8;border-radius:12px;padding:1rem;margin-top:1rem}
+.campo>span.contador{display:flex;gap:.5rem;align-items:center;max-width:230px;font-weight:400}
+.contador button{flex:none;width:50px;height:50px;border-radius:12px;border:1px solid #BFB79F;background:#fff;font-size:1.5rem;font-weight:700;color:var(--teal);cursor:pointer}
+.contador input{text-align:center;font-weight:700;font-size:1.15rem}
+.s1{--ac:#14706B;--bg:#DCEFEC;--tx:#0E443F}.s3{--ac:#2E9E4F;--bg:#DFF1E4;--tx:#1B5E30}
+.s5{--ac:#1D4D77;--bg:#DEEAF4;--tx:#143A5C}.s7{--ac:#B98A2E;--bg:#F6ECD3;--tx:#6B4F12}
+
+/* Pase de lista */
+.pase{border:1px solid var(--linea);border-radius:12px;overflow:hidden;background:#fff;font-weight:400}
+.pase-fila{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.4rem .5rem .4rem .8rem;border-bottom:1px solid #EFEADD}
+.pase-fila:last-child{border-bottom:none}
+.pase-nom{font-size:.95rem;line-height:1.25;font-weight:600}
+.pase-bot{display:flex;gap:.3rem;flex:none}
+.pb{width:44px;height:44px;border-radius:10px;border:1px solid #BFB79F;background:#fff;font:700 1rem 'Instrument Sans',sans-serif;color:var(--tinta-suave);cursor:pointer}
+.pb-P[aria-pressed="true"]{background:#2E7D46;border-color:#2E7D46;color:#fff}
+.pb-R[aria-pressed="true"]{background:#EBC351;border-color:#C9A12E;color:#3D2E00}
+.pb-F[aria-pressed="true"]{background:#A2412B;border-color:#A2412B;color:#fff}
+.campo>span.pase-res,.pase-res{font-weight:700;font-size:.9rem;margin-top:.5rem;color:var(--tinta-suave)}
+.mini-barra{display:inline-block;width:90px;height:10px;border-radius:5px;background:#F1ECDF;overflow:hidden;vertical-align:middle;margin-right:.3rem}
+.mini-barra span{display:block;height:100%;background:#2E7D46}.mini-barra span.baja{background:var(--rojo)}
+b.rojo{color:var(--rojo)}
+
+/* Avisar */
+.marca{display:flex;gap:.7rem;align-items:flex-start;padding:.65rem .2rem;border-bottom:1px solid #EFEADD;cursor:pointer}
+.marca:last-child{border-bottom:none}
+.marca b{display:block;line-height:1.25}
+.marca span{font-size:.86rem;color:var(--tinta-suave)}
+.marca.ya{opacity:.6;cursor:default}
+.renglon{display:flex;justify-content:space-between;gap:.8rem;align-items:center;padding:.7rem 0;border-bottom:1px solid #EFEADD;flex-wrap:wrap}
+.renglon:last-child{border-bottom:none}
+.renglon b{display:block;line-height:1.25}
+.renglon span{font-size:.86rem;color:var(--tinta-suave)}
+
+/* Calendario */
+.cal-barra{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;margin:.6rem 0 .9rem}
+.cal-mes{display:flex;align-items:center;gap:.5rem}
+.cal-mes h2{min-width:11ch;text-align:center}
+.cal-mes button{width:44px;height:44px;border-radius:50%;border:1px solid var(--linea);background:#fff;font-size:1.2rem;font-weight:700;color:var(--teal);cursor:pointer}
+.filtro{display:flex;gap:.35rem;flex-wrap:wrap}
+.filtro button{font:inherit;font-weight:700;font-size:.85rem;border:1px solid var(--linea);background:#fff;color:var(--tinta-suave);padding:.4rem .8rem;border-radius:999px;cursor:pointer;min-height:38px}
+.filtro button[aria-pressed="true"]{background:var(--monte);border-color:var(--monte);color:#fff}
+.cal{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.cal-dia-nombre{font-family:'Fraunces',serif;font-weight:700;color:var(--monte);text-align:center;font-size:.92rem;padding:.2rem 0}
+.dia{background:#fff;border:1px solid var(--linea);border-radius:12px;min-height:104px;padding:.4rem;min-width:0}
+.dia.fuera{background:transparent;border-style:dashed;opacity:.5}
+.dia.hoy{border:2px solid var(--teal)}
+.dia .num{font-weight:700;font-size:.85rem;color:var(--tinta-suave);display:flex;justify-content:space-between;gap:.3rem}
+.dia .num .largo{display:none}
+.dia.hoy .num{color:var(--teal)}
+.chip{display:block;width:100%;text-align:left;font:inherit;border:none;border-left:4px solid var(--ac);background:var(--bg);color:var(--tx);
+  border-radius:7px;padding:.3rem .4rem;margin-top:.3rem;cursor:pointer;font-size:.74rem;line-height:1.2;min-width:0}
+.chip b{display:block;font-variant-numeric:tabular-nums}
+.chip .cm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.chip .usa{display:block;font-weight:700;margin-top:.1rem}
+.chip[aria-pressed="true"]{outline:3px solid var(--milpa);outline-offset:1px}
+.leyenda{font-size:.85rem;color:var(--tinta-suave);margin-top:.8rem}
+@media(max-width:720px){
+  .cal{display:block}
+  .cal-dia-nombre,.dia.fuera,.dia.libre{display:none}
+  .dia{min-height:0;margin-bottom:.6rem;padding:.7rem}
+  .dia .num .corto{display:none}.dia .num .largo{display:inline;font-family:'Fraunces',serif;font-size:1rem;color:var(--monte)}
+  .chip{font-size:.9rem;padding:.55rem .65rem;margin-top:.45rem}
+}
+.detalle{border:2px solid var(--teal);margin-top:1rem}
+.detalle dd a{color:var(--teal);font-weight:700}
+.detalle dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem .9rem;margin:.7rem 0;font-size:.95rem}
+.detalle dt{font-weight:700;color:var(--tinta-suave)}
+
+/* Espacios libres */
+h3.sec{margin:1.2rem 0 .6rem}
+.oports{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.7rem}
+.oport{text-align:left;font:inherit;background:#fff;border:1px solid var(--linea);border-top:6px solid var(--milpa);border-radius:14px;padding:.8rem .9rem;cursor:pointer;display:flex;flex-direction:column;gap:.15rem;color:var(--tinta)}
+.oport:hover{border-color:var(--milpa)}
+.oport[aria-pressed="true"]{outline:3px solid var(--milpa);outline-offset:1px}
+.o-cuando{font-weight:700;font-size:1rem;font-variant-numeric:tabular-nums}
+.o-sem{display:inline-block;align-self:flex-start;background:var(--bg);color:var(--tx);border-radius:999px;padding:.05rem .6rem;font-weight:700;font-size:.8rem}
+.o-mat{font-size:.86rem;color:var(--tinta-suave);line-height:1.3}
+.pista{display:inline-block;align-self:flex-start;background:#FFF1C9;color:#5B4310;border:1px solid #E7CF86;border-radius:999px;padding:.05rem .6rem;font-weight:700;font-size:.78rem;margin-top:.2rem}
+.pista.gris{background:var(--crema-2);border-color:var(--linea);color:var(--tinta-suave)}
+.tira{padding:1rem 1rem .8rem;border-left:5px solid var(--ac)}
+.tira h3{margin-bottom:.4rem}
+.tira-fila{display:flex;align-items:stretch;gap:.5rem;margin-bottom:5px}
+.tira-dia{flex:0 0 4.6rem;font-size:.8rem;font-weight:700;color:var(--tinta-suave);display:flex;align-items:center;text-transform:capitalize}
+.tira-fila.hoy .tira-dia{color:var(--teal)}
+.tira-pista{position:relative;flex:1;height:46px;border-radius:8px;background:#F7F3E8 repeating-linear-gradient(90deg,#E6DFCB 0 1px,transparent 1px calc(100% / 9));overflow:hidden}
+.tira-fila.hoy .tira-pista{box-shadow:0 0 0 2px var(--teal)}
+.tira-fila.horas{margin-bottom:2px}
+.tira-pista.sin{height:1.1rem;background:none;overflow:visible}
+.tira-pista.sin span{position:absolute;font-size:.68rem;color:var(--tinta-suave);font-variant-numeric:tabular-nums}
+.bl{position:absolute;top:3px;bottom:3px;border-radius:6px;background:#E4DDCB;color:#5A5644;font:600 .68rem/1.15 'Instrument Sans',sans-serif;padding:.2rem .3rem;overflow:hidden;border:none;text-align:left;box-shadow:inset 0 0 0 1px #F7F3E8}
+.bl.dep{background:repeating-linear-gradient(135deg,#ECE7DC 0 4px,#F7F3E8 4px 8px);color:#8A8370}
+.bl.mia{box-shadow:inset 0 0 0 2px var(--tinta)}
+.bl.inh{background:repeating-linear-gradient(135deg,#F1ECDF 0 6px,#fff 6px 12px);display:flex;align-items:center;justify-content:center;font-size:.8rem}
+button.bl{cursor:pointer;display:flex;flex-direction:column;justify-content:center;top:0;bottom:0}
+.bl.libre{background:#2E9E4F;color:#fff}.bl.apartado{background:#1D4D77;color:#fff}
+.bl.libre b,.bl.apartado b{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+.bl.pasada{opacity:.5}
+button.bl[aria-pressed="true"]{outline:3px solid var(--tinta);outline-offset:-3px}
+.mu{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin:0 .25rem 0 .7rem}
+.mu.libre{background:#2E9E4F}.mu.apartado{background:#1D4D77}.mu.normal{background:#E4DDCB}.mu.mia{background:#E4DDCB;box-shadow:inset 0 0 0 2px var(--tinta)}
+@media(max-width:560px){.tira-dia{flex-basis:3.4rem;font-size:.72rem}.bl{font-size:.6rem}}
+
+/* Coordinación */
+.subpest{display:flex;gap:0;margin:.2rem 0 1rem;border-bottom:2px solid var(--linea);overflow-x:auto}
+.subpest button{font:inherit;font-weight:700;font-size:.98rem;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:.7rem 1rem;color:var(--tinta-suave);cursor:pointer;white-space:nowrap;min-height:48px}
+.subpest button[aria-pressed="true"]{color:var(--teal);border-bottom-color:var(--teal)}
+.e-encargo{background:#B0447A;color:#fff}
+.barras{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem}
+.barra-fila{display:grid;grid-template-columns:minmax(9rem,16rem) 1fr 2rem;gap:.7rem;align-items:center;font:inherit;background:none;border:none;border-radius:8px;padding:.35rem .4rem;cursor:pointer;text-align:left;color:var(--tinta)}
+.barra-fila:hover,.barra-fila[aria-pressed="true"]{background:var(--crema-2)}
+.b-nom{font-size:.9rem;font-weight:600;line-height:1.25}.b-num{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.b-pista{height:18px;background:#F1ECDF;border-radius:5px;overflow:hidden}.b-rel{display:block;height:100%;border-radius:5px;background:var(--mc)}
+.m0{--mc:#1D4D77;--mb:#DEEAF4;--mt:#143A5C}.m1{--mc:#B5673C;--mb:#F3E2D8;--mt:#6E3D22}.m2{--mc:#7A5C9A;--mb:#EBE3F2;--mt:#4A3563}
+.m3{--mc:#2E9E4F;--mb:#DFF1E4;--mt:#1B5E30}.m4{--mc:#6B7A75;--mb:#E8ECEA;--mt:#3C4A45}
+h3.dia-aus{border-bottom:1px solid var(--linea);padding-bottom:.3rem}
+.aus{background:#fff;border:1px solid var(--linea);border-left:6px solid var(--mc);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:.7rem}
+.aus-cab{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;flex-wrap:wrap}
+.aus-cab b{display:block;font-family:'Fraunces',serif;font-size:1.12rem;color:var(--monte);line-height:1.2}
+.aus-cab span{font-size:.9rem;color:var(--tinta-suave)}
+.aus-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin:.6rem 0 .2rem}
+.tagm{display:inline-block;border-radius:999px;padding:.12rem .7rem;font-weight:700;font-size:.8rem;background:var(--mb,var(--crema-2));color:var(--mt,var(--tinta-suave))}
+.tagm.neutro{background:var(--crema-2);color:var(--tinta-suave)}.tagm.tarde{background:var(--rojo-bg);color:var(--rojo)}.tagm.justo{background:#FFF1C9;color:#5B4310}.tagm.usado{background:#DEEAF4;color:#143A5C}
+.aus-linea{font-size:.93rem;margin-top:.35rem}.aus-linea.suave{color:var(--tinta-suave)}
+.pan{padding:.75rem 0;border-top:1px solid #EFEADD}
+.pan-nom{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.35rem}
+.pan-barra{display:flex;height:26px;border-radius:7px;overflow:hidden;background:#F1ECDF;gap:2px}
+.pan-barra span{display:grid;place-items:center;font-weight:700;font-size:.78rem;min-width:3px}
+.pan-txt{font-size:.86rem;color:var(--tinta-suave);margin-top:.3rem}
+.cifras{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+@media(max-width:720px){.cifras{grid-template-columns:repeat(2,1fr)}}
+.cifra{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:.9rem 1rem}
+.cifra b{display:block;font-family:'Fraunces',serif;font-size:1.9rem;line-height:1.1;color:var(--monte)}
+.cifra span{font-size:.85rem;color:var(--tinta-suave);font-weight:600}
+.cifra.alerta b{color:var(--rojo)}
+.tabla-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid #EFEADD;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-suave);white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td.alerta{color:var(--rojo);font-weight:700}
+.porprof td:first-child{white-space:nowrap}
+.cifras.cinco{grid-template-columns:repeat(5,1fr)}
+@media(max-width:900px){.cifras.cinco{grid-template-columns:repeat(2,1fr)}}
+.cifra.c-tiempo{border-top:4px solid #2E7D46}.cifra.c-retraso{border-top:4px solid #E0B43A}.cifra.c-avisada{border-top:4px solid #1D4D77}.cifra.alerta{border-top:4px solid var(--rojo)}
+/* Semáforo: color y además letra, para quien no distingue colores */
+.e-tiempo{background:#2E7D46;color:#fff}.e-retraso{background:#EBC351;color:#3D2E00}.e-tarde{background:#DD8A45;color:#371800}
+.e-fuera{background:#7A5C9A;color:#fff}.e-validada{background:#5B7885;color:#fff}.e-avisada{background:#1D4D77;color:#fff}
+.e-sin{background:#A2412B;color:#fff}.e-prox{background:#fff;border:1.5px dashed #BFB79F}
+.sq{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;border:none;font:700 .74rem/1 'Instrument Sans',sans-serif;margin:1px;padding:0;vertical-align:middle;flex:none}
+button.sq{cursor:pointer}
+button.sq[aria-pressed="true"]{outline:3px solid var(--tinta);outline-offset:1px}
+.tag{display:inline-block;border-radius:999px;padding:.12rem .65rem;font-weight:700;font-size:.8rem;white-space:nowrap}
+.matriz{font-size:.82rem;width:auto;min-width:100%}
+.matriz th,.matriz td{padding:3px 2px;text-align:center;border-bottom:1px solid #EFEADD;vertical-align:middle}
+.matriz thead th{font-size:.7rem;line-height:1.25;letter-spacing:0;min-width:28px}
+.matriz th[scope=row],.matriz thead th:first-child{text-align:left;position:sticky;left:0;background:#fff;font-size:.82rem;text-transform:none;letter-spacing:0;color:var(--tinta);font-weight:600;padding-right:.7rem;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis;z-index:1}
+.matriz .hoy{background:#EAF4F2}.matriz .inh{background:repeating-linear-gradient(135deg,#F1ECDF 0 5px,#fff 5px 10px)}
+.matriz td .sq{display:grid;margin:2px auto}
+.leyenda-est{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.35rem 1.2rem;margin:1rem 0 0;font-size:.85rem;color:var(--tinta-suave)}
+.leyenda-est li{display:flex;gap:.5rem;align-items:flex-start}
+.leyenda-est b{color:var(--tinta)}
+.dia.inhabil{background:repeating-linear-gradient(135deg,#F1ECDF 0 6px,#FAF7F0 6px 12px)}
+.dia .motivo{font-size:.76rem;font-weight:600;color:var(--tinta-suave);margin-top:.3rem;line-height:1.25}
+details{margin-bottom:.9rem}
+details>summary{cursor:pointer;font-family:'Fraunces',serif;font-weight:700;font-size:1.08rem;color:var(--monte);padding:.2rem 0}
+details[open]>summary{margin-bottom:.6rem}
+
+footer{background:var(--crema-2);border-top:1px solid var(--linea);margin-top:3rem}
+.pie-inner{max-width:var(--max);margin:0 auto;padding:2.2rem 1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.pie-inner img{height:60px;width:auto}
+.pie-texto{font-size:.86rem;color:var(--tinta-suave);line-height:1.5;text-align:right}
+@media(max-width:560px){.pie-inner{flex-direction:column;align-items:flex-start}.pie-texto{text-align:left}}
+:focus-visible{outline:3px solid var(--milpa);outline-offset:2px}
+
+/* ── Celular primero: cabecera compacta y pestañas abajo, al alcance del pulgar ── */
+.pestanas svg{display:none}
+.pestanas .c{display:none}
+.cargando{padding:.4rem 0}
+.cargando p{color:var(--tinta-suave);font-weight:600;font-size:.95rem;margin-bottom:.8rem}
+.hueso{height:92px;border-radius:14px;margin-bottom:.8rem;background:linear-gradient(100deg,#EFEADD 30%,#F8F5EC 50%,#EFEADD 70%);background-size:300% 100%;animation:brillo 1.2s linear infinite}
+.hueso.bajo{height:56px;max-width:70%}
+@keyframes brillo{from{background-position:100% 0}to{background-position:0 0}}
+.brindis{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--monte);color:#fff;font-weight:700;padding:.8rem 1.3rem;border-radius:999px;
+  box-shadow:0 8px 24px rgba(14,59,46,.3);z-index:80;animation:sube .3s ease-out;max-width:calc(100vw - 2rem);text-align:center}
+@keyframes sube{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+@media(prefers-reduced-motion:reduce){.hueso,.brindis{animation:none}}
+@media(max-width:680px){
+  .topbar{position:static}
+  .topbar-inner{padding:.45rem 1rem}
+  .hero-inner{padding:.95rem 1.25rem .9rem}
+  .eyebrow{font-size:.68rem;margin-bottom:.25rem}
+  .hero h1{font-size:1.55rem}
+  .hero-bajada{display:none}
+  main{padding-top:.4rem}
+  .pestanas{position:fixed;left:0;right:0;bottom:0;z-index:60;max-width:none;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem;
+    padding:.35rem .4rem calc(.35rem + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--linea);box-shadow:0 -6px 18px rgba(14,59,46,.09)}
+  .pestanas button{border:none;background:none;border-radius:12px;padding:.3rem .1rem;min-height:56px;font-size:.72rem;line-height:1.1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem}
+  .pestanas button[aria-pressed="true"]{background:#E3F1EE;color:var(--teal)}
+  .pestanas svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .pestanas .l{display:none}.pestanas .c{display:inline}
+  .pestanas .aparte{margin-left:0}
+  footer{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+  .boton.ancho{min-height:56px;font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo-link" href="index.html" aria-label="Inicio · Licenciatura PAS">
+      <img src="data:image/webp;base64,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" width="126" height="52" alt="Logo PAS · Producción Agropecuaria Sustentable">
+    </a>
+    <a class="volver" href="index.html">← Volver al inicio</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Licenciatura PAS · Semestre 2026-2</p>
+    <h1>Asistencia y avisos</h1>
+    <p class="hero-bajada">Para profesores: registra tu clase con la clave del grupo, o avisa con tiempo si no podrás darla. El calendario muestra qué espacios quedan libres para una salida o una práctica extendida.</p>
+  </div>
+</section>
+
+<div class="prueba" id="prueba" hidden>
+  <div class="prueba-inner">
+    <span><strong>Modo prueba.</strong> Lo que registres se guarda solo en este navegador. Claves: profesor <code>0000</code>, grupo <code>demo</code>, coordinación <code>9999</code>.</span>
+    <label>Simular otro día y hora <input type="datetime-local" id="simDia"></label>
+    <button class="enlace" id="simQuitar" hidden>Volver a hoy</button>
+    <button class="enlace" id="borrarPrueba">Borrar datos de prueba</button>
+  </div>
+</div>
+
+<nav class="pestanas" aria-label="Secciones">
+  <button data-vista="hoy"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span class="l">Pasar asistencia</span><span class="c">Asistencia</span></button>
+  <button data-vista="avisar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10.5 20a1.7 1.7 0 0 0 3 0"/></svg><span class="l">Avisar que faltaré</span><span class="c">Avisar falta</span></button>
+  <button data-vista="calendario"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span class="l">Espacios libres</span><span class="c">Espacios</span></button>
+  <button data-vista="coord" class="aparte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg><span class="l">Coordinación</span><span class="c">Coordinación</span></button>
+</nav>
+
+<main id="main" aria-live="polite"></main>
+
+<footer>
+  <div class="pie-inner">
+    <img id="pieLogo" width="145" height="60" alt="Logo PAS">
+    <div class="pie-texto">
+      <strong>Licenciatura en Producción Agropecuaria Sustentable</strong><br>
+      Universidad Autónoma de Querétaro · Facultad de Ciencias Naturales<br>
+      Campus Concá · Sierra Gorda, Querétaro
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════ CONFIGURACIÓN ════════ */
+// Pega aquí la URL /exec de la aplicación web de Apps Script.
+// Vacía = modo prueba (los datos se quedan en el navegador).
+const API_URL = 'https://script.google.com/macros/s/AKfycbwUcyOBwr79i0Lq_3URlU-PFZoy92O5UMTx6lwTJ5Y6X6ulTlNqDDp5uGPSny1BCQoVmg/exec';
+// Desde qué día cuenta la coordinación las clases "sin registro".
+const INICIO_REGISTRO = '2026-11-17';
+// Claves del modo prueba. Con API_URL puesta ya no se usan: mandan las de la hoja.
+const CLAVES_PRUEBA = [
+  {tipo:'maestro',quien:'*',clave:'0000'},
+  {tipo:'alumnos',quien:'*',clave:'demo'},
+  {tipo:'coordinacion',quien:'*',clave:'9999'}
+];
+// En modo prueba los grupos son de ejemplo, con el tamaño real de cada semestre.
+// Los nombres verdaderos viven solo en la hoja de cálculo (pestaña Alumnos).
+const ALUMNOS_PRUEBA = Object.entries({1:8, 3:7, 5:9, 7:11}).flatMap(([sem,n]) =>
+  Array.from({length:n}, (_, i) => ({sem, expediente:'ej-' + sem + '-' + (i+1), nombre:'Estudiante ' + (i+1) + ' de ejemplo', estado:'activo'})));
+// Porcentaje mínimo de asistencia que la coordinación quiere vigilar.
+const ASISTENCIA_MINIMA = 80;
+const MOTIVOS = ['Comisión o evento académico','Salud','Asunto personal','Salida de campo o práctica con otro grupo','Otro'];
+
+/* ════════ HORARIO 2026-2 (copia de horarios.html) ════════ */
+const HORARIO = {
+  "1":[
+    {m:"Fundamentos de Bioquímica",cod:"4001",p:"Marcela Quiroz Sodi",s:[["lun","12:00","14:00"],["mie","8:00","10:00"],["jue","7:00","9:00"]]},
+    {m:"Zoología",cod:"4002",p:"Javier Alejandro Obregón Zúñiga",s:[["mar","13:00","15:00"],["mie","10:00","12:00"],["jue","13:00","15:00"]]},
+    {m:"Botánica",cod:"4003",p:"Judith Gabriela Luna Zúñiga",s:[["lun","10:00","12:00"],["mar","9:00","11:00"],["vie","11:00","13:00"]]},
+    {m:"Ecología Humana",cod:"4004",p:"Alma Rosa Moya Alvarado",s:[["lun","8:00","10:00"],["mar","7:00","9:00"]]},
+    {m:"Fundamentos de Biología Celular",cod:"4005",p:"Octavio Roldán Padrón",s:[["lun","14:00","16:00"],["mie","12:00","14:00"]]},
+    {m:"Fundamentos para el Desarrollo Comunitario",cod:"4006",p:"Mayra Juliana Chávez Alcalá",s:[["jue","9:00","11:00"],["vie","9:00","11:00"]]}
+  ],
+  "3":[
+    {m:"Estadística",cod:"4013",p:"Guillermo Abraham Peña Herrejón",s:[["mie","8:00","10:00"],["jue","9:00","11:00"]]},
+    {m:"Problemáticas y Perspectivas del Entorno Rural",cod:"4014",p:"Mayra Juliana Chávez Alcalá",s:[["jue","7:00","9:00"],["vie","11:00","13:00"]]},
+    {m:"Ecología",cod:"4015",p:"Javier Alejandro Obregón Zúñiga",s:[["lun","10:00","12:00"],["mar","9:00","11:00"],["vie","9:00","11:00"]]},
+    {m:"Conservación y Manejo de Recursos Naturales I",cod:"4016",p:"Judith Gabriela Luna Zúñiga",s:[["lun","14:00","16:00"],["mie","12:00","14:00"],["vie","13:00","15:00"]]},
+    {m:"Producción de No Rumiantes",cod:"4017",p:"Iván Gómez Sánchez",s:[["lun","8:00","10:00"],["mar","13:00","15:00"],["mie","10:00","12:00"]]},
+    {m:"Inglés I",cod:"4018",p:"Eugenio Arroyo Reséndiz",s:[["jue","13:00","15:00"],["vie","7:00","9:00"]]}
+  ],
+  "5":[
+    {m:"Gestión y Manejo de Proyectos",cod:"4025",p:"Eduardo Luna Sánchez",s:[["jue","13:00","15:00"],["vie","7:00","9:00"]]},
+    {m:"Legislación y Políticas Públicas",cod:"4026",p:"Carlos Alberto Murillo Cárdenas",s:[["jue","7:00","9:00"],["jue","9:00","11:00"],["vie","9:00","11:00"]]},
+    {m:"Servicios y Restauración Ambiental",cod:"4027",p:"Judith Gabriela Luna Zúñiga",s:[["lun","12:00","14:00"],["mar","13:00","15:00"],["mie","9:00","11:00"]]},
+    {m:"Manejo de Fauna Silvestre",cod:"4028",p:"Javier Alejandro Obregón Zúñiga",s:[["lun","14:00","16:00"],["mie","12:00","14:00"],["vie","13:00","15:00"]]},
+    {m:"Agricultura Protegida",cod:"4029",p:"Adán Mercado Luna",s:[["mar","9:00","11:00"],["mie","7:00","9:00"],["vie","11:00","13:00"]]},
+    {m:"Inglés III",cod:"4030",p:"Eduardo Alfaro Vázquez",s:[["mar","7:00","9:00"],["mie","14:00","16:00"]]}
+  ],
+  "7":[
+    {m:"Sistemas de Producción Familiar",cod:"4037",p:"Alan Joseph Mallozzi Rodríguez",s:[["mie","10:00","12:00"],["vie","8:00","10:00"]]},
+    {m:"Comercialización y Relaciones Estratégicas",cod:"4038",p:"Eduardo Amador Enríquez",s:[["lun","8:00","10:00"],["mie","8:00","10:00"]]},
+    {m:"Producción y Uso de Forrajes",cod:"4039",p:"Marcela Quiroz Sodi",s:[["mar","13:00","15:00"],["mie","12:00","14:00"],["vie","10:00","12:00"]]},
+    {m:"Manejo de Agostaderos, Áreas de Pastoreo y Silvopastoriles",cod:"4040",p:"Iván Gómez Sánchez",s:[["lun","10:00","12:00"],["mar","9:00","11:00"],["jue","13:00","15:00"]]},
+    {m:"Postcosecha y Procesamiento de Productos de Origen Vegetal",cod:"4041",p:"Alexandro Escobar Ortiz",s:[["lun","12:00","14:00"],["mar","7:00","9:00"],["jue","7:00","9:00"]]},
+    {m:"Procesamiento de Productos de Origen Animal",cod:"4042",p:"Iván Gómez Sánchez",s:[["lun","14:00","16:00"],["mie","14:00","16:00"],["jue","9:00","11:00"]]}
+  ]
+};
+const SEMS = Object.keys(HORARIO);
+const PROFES = [...new Set(SEMS.flatMap(s => HORARIO[s].map(c => c.p)))].sort((a,b) => a.localeCompare(b,'es'));
+
+/* ════════ LAS REGLAS (idénticas a las del servidor) ════════ */
+function nucleo(db, p, ahora, guardarArchivo) {
+  function t(x) { return String(x == null ? '' : x).trim(); }
+  function err(m) { return { ok: false, error: m }; }
+  function errClave(m) { return { ok: false, error: m, clave: true }; }
+  function inhabiles(desde, hasta) {
+    return db.leer('Inhabiles').filter(function (r) { var f = t(r.fecha); return t(r.estado) !== 'retirado' && f >= desde && f <= hasta; })
+      .map(function (r) { return { fecha: t(r.fecha), motivo: t(r.motivo) }; });
+  }
+  function correoDe(q) {
+    // Puede haber varias filas para la misma persona o para la coordinación: se usan todas.
+    return db.leer('Correos').filter(function (r) { return t(r.quien) === q && t(r.correo) !== ''; })
+      .map(function (r) { return t(r.correo); }).join(',');
+  }
+  function mascara(c) { var a = c.split('@'); return a.length === 2 ? a[0].slice(0, 2) + '•••@' + a[1] : ''; }
+  function grupoDe(sem) {
+    return db.leer('Alumnos').filter(function (r) { return t(r.sem) === t(sem) && t(r.estado) !== 'baja' && t(r.nombre) !== ''; })
+      .map(function (r) { return { id: t(r.expediente), nombre: t(r.nombre) }; });
+  }
+  function esCoord() { return claveOk('coordinacion', '*', p.clave); }
+  function mins(h) { var a = t(h).split(':'); return (+a[0]) * 60 + (+a[1] || 0); }
+  function idDe(c) { return [t(c.fecha), t(c.sem), t(c.cod), t(c.ini)].join('|'); }
+  function claseValida(c) {
+    return c && /^\d{4}-\d{2}-\d{2}$/.test(t(c.fecha)) && /^\d{1,2}:\d{2}$/.test(t(c.ini)) &&
+      /^\d{1,2}:\d{2}$/.test(t(c.fin)) && t(c.sem) !== '' && t(c.materia) !== '';
+  }
+  function activa(f) { return t(f.estado) !== 'retirada'; }
+  function claveOk(tipo, quien, clave) {
+    var filas = db.leer('Claves').filter(function (r) { return t(r.tipo) === tipo; });
+    var propias = filas.filter(function (r) { return t(r.quien) === t(quien); });
+    var usar = propias.length ? propias : filas.filter(function (r) { return t(r.quien) === '*'; });
+    var c = t(clave).toLowerCase();
+    return c !== '' && usar.some(function (r) { return t(r.clave).toLowerCase() === c; });
+  }
+  function publica(f) {
+    return { id: t(f.id), fecha: t(f.fecha), sem: t(f.sem), cod: t(f.cod), materia: t(f.materia), prof: t(f.prof),
+      ini: t(f.ini), fin: t(f.fin), tomado_por: t(f.tomado_por), actividad: t(f.actividad), encargo: t(f.encargo) };
+  }
+  var NO_MAESTRO = 'La clave de profesor no coincide.', NO_COORD = 'La clave de coordinación no coincide.';
+  var a = t(p.a), prof = t(p.prof);
+
+  if (a === 'calendario') {
+    var mes = t(p.mes), c1 = t(p.desde), c2 = t(p.hasta);
+    if (/^\d{4}-\d{2}$/.test(mes)) { c1 = mes + '-01'; c2 = mes + '-31'; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(c1) || !/^\d{4}-\d{2}-\d{2}$/.test(c2)) return err('Faltan las fechas.');
+    return { ok: true, hoy: ahora.fecha, inhabiles: inhabiles(c1, c2), faltas: db.leer('Faltas').filter(function (f) {
+      var d = t(f.fecha); return activa(f) && d >= c1 && d <= c2; }).map(publica) };
+  }
+
+  if (a === 'entrar') {
+    if (t(p.rol) === 'coord') return esCoord() ? { ok: true } : errClave(NO_COORD);
+    if (prof === '') return err('Elige tu nombre.');
+    return claveOk('maestro', prof, p.clave) ? { ok: true, hoy: ahora.fecha } : errClave(NO_MAESTRO);
+  }
+
+  if (a === 'coord') {
+    if (!esCoord()) return errClave(NO_COORD);
+    var d = t(p.desde), h = t(p.hasta);
+    var dentro = function (r) { var f = t(r.fecha); return f >= d && f <= h; };
+    var limpia = function (r) { var o = {}; for (var k in r) if (k !== '_n') o[k] = t(r[k]); return o; };
+    return { ok: true, hoy: ahora.fecha, min: ahora.min, inhabiles: inhabiles(d, h),
+      asist: db.leer('Asistencia').filter(dentro).map(limpia),
+      lista: db.leer('Lista').filter(dentro).map(limpia),
+      faltas: db.leer('Faltas').filter(dentro).map(limpia) };
+  }
+
+  if (a === 'validar') {
+    // La coordinación da por buena una clase que se dio pero no se pudo registrar.
+    if (!esCoord()) return errClave(NO_COORD);
+    var v = p.clase;
+    if (!claseValida(v) || t(v.prof) === '') return err('Faltan datos de la clase.');
+    if (t(v.fecha) > ahora.fecha) return err('Esa clase todavía no ocurre.');
+    if (t(p.nota) === '') return err('Escribe por qué se valida: queda en el registro.');
+    var vid = idDe(v);
+    if (db.leer('Asistencia').some(function (r) { return t(r.id) === vid; })) return err('Esa clase ya tiene registro.');
+    if (db.leer('Faltas').some(function (f) { return activa(f) && t(f.id) === vid; })) return err('Esa clase está avisada como que no se dio.');
+    db.agregar('Asistencia', { id: vid, registrado: ahora.sello, fecha: t(v.fecha), sem: t(v.sem), cod: t(v.cod), materia: t(v.materia),
+      prof: t(v.prof), ini: t(v.ini), fin: t(v.fin), presentes: '', tema: '', retraso: '', origen: 'coordinacion', nota: t(p.nota).slice(0, 300) });
+    return { ok: true };
+  }
+
+  if (a === 'inhabil') {
+    if (!esCoord()) return errClave(NO_COORD);
+    var fd = t(p.fecha);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fd)) return err('Elige la fecha.');
+    var ya = db.leer('Inhabiles').filter(function (r) { return t(r.fecha) === fd && t(r.estado) !== 'retirado'; })[0];
+    if (p.quitar) { if (ya) db.actualizar('Inhabiles', ya._n, { estado: 'retirado' }); return { ok: true }; }
+    if (ya) return err('Ese día ya está marcado.');
+    if (t(p.motivo) === '') return err('Escribe el motivo, por ejemplo: día festivo.');
+    db.agregar('Inhabiles', { fecha: fd, motivo: t(p.motivo).slice(0, 120), estado: 'activo' });
+    return { ok: true };
+  }
+
+  // De aquí en adelante todo pide la clave de profesor.
+  if (prof === '') return err('Elige tu nombre.');
+  if (!claveOk('maestro', prof, p.clave)) return errClave(NO_MAESTRO);
+
+  if (a === 'grupo') return { ok: true, alumnos: grupoDe(p.sem) };
+
+  if (a === 'mio') {
+    return { ok: true, hoy: ahora.fecha, min: ahora.min, correo: mascara(correoDe(prof)), inhabil: (inhabiles(t(p.fecha), t(p.fecha))[0] || {}).motivo || '',
+      asist: db.leer('Asistencia').filter(function (r) { return t(r.prof) === prof && t(r.fecha) === t(p.fecha); })
+        .map(function (r) { return { id: t(r.id), registrado: t(r.registrado) }; }),
+      faltas: db.leer('Faltas').filter(function (f) { return activa(f) && t(f.prof) === prof && t(f.fecha) >= t(p.desde); })
+        .map(function (f) { var o = publica(f); o.motivo = t(f.motivo); return o; }) };
+  }
+
+  if (a === 'asistencia') {
+    var c = p.clase;
+    if (!claseValida(c)) return err('Faltan datos de la clase.');
+    if (!claveOk('alumnos', t(c.sem), p.claveGrupo)) return errClave('La clave del grupo no coincide. Pídele al grupo que la escriba de nuevo.');
+    if (t(c.fecha) !== ahora.fecha) return err('Solo se puede pasar asistencia el mismo día de la clase.');
+    if (ahora.min < mins(c.ini) - 15) return err('Todavía no es hora: se puede registrar desde 15 minutos antes de la clase.');
+    var id = idDe(c);
+    if (db.leer('Asistencia').some(function (r) { return t(r.id) === id; })) return err('Esta clase ya tiene asistencia registrada.');
+    if (db.leer('Faltas').some(function (f) { return activa(f) && t(f.id) === id; }))
+      return err('Esta clase está avisada como que no se dará. Retira el aviso antes de pasar asistencia.');
+    var n = t(p.presentes);
+    if (n !== '' && !/^\d{1,2}$/.test(n)) return err('El número de presentes no es válido.');
+    // Pase de lista: los nombres salen de la hoja, no del teléfono. Quien no venga marcado cuenta como falta.
+    var grupo = grupoDe(c.sem), filas = [];
+    if (grupo.length) {
+      if (!p.lista || !p.lista.length) return err('Falta el pase de lista.');
+      var marcas = {};
+      p.lista.forEach(function (x) { if (x && /^[PRF]$/.test(t(x.e))) marcas[t(x.id)] = t(x.e); });
+      var vinieron = 0;
+      grupo.forEach(function (al) {
+        var e = marcas[al.id] || 'F';
+        if (e !== 'F') vinieron++;
+        filas.push({ id: id, fecha: t(c.fecha), sem: t(c.sem), cod: t(c.cod), materia: t(c.materia), prof: prof,
+          expediente: al.id, nombre: al.nombre, estado: e });
+      });
+      n = String(vinieron);
+    }
+    db.agregar('Asistencia', { id: id, registrado: ahora.sello, fecha: t(c.fecha), sem: t(c.sem), cod: t(c.cod),
+      materia: t(c.materia), prof: prof, ini: t(c.ini), fin: t(c.fin), presentes: n, tema: t(p.tema).slice(0, 300),
+      retraso: String(ahora.min - mins(c.ini)), origen: 'grupo', nota: '' });
+    if (filas.length) db.agregarVarios('Lista', filas);
+    return { ok: true, id: id, registrado: ahora.sello };
+  }
+
+  if (a === 'falta') {
+    var lista = p.clases;
+    if (!lista || !lista.length) return err('Marca al menos una clase.');
+    if (lista.length > 40) return err('Son demasiadas clases en un solo aviso. Divídelo en dos.');
+    if (t(p.motivo) === '') return err('Elige un motivo.');
+    for (var i = 0; i < lista.length; i++) if (!claseValida(lista[i])) return err('Faltan datos de una clase.');
+    var asis = db.leer('Asistencia'), fal = db.leer('Faltas'), nuevas = [], omitidas = 0;
+    lista.forEach(function (c) {
+      var id = idDe(c);
+      if (asis.some(function (r) { return t(r.id) === id; }) ||
+          fal.some(function (f) { return activa(f) && t(f.id) === id; }) ||
+          nuevas.some(function (x) { return x.id === id; })) { omitidas++; return; }
+      nuevas.push({ id: id, c: c });
+    });
+    if (!nuevas.length) return err('Esas clases ya estaban avisadas o ya tienen asistencia.');
+    // El correo del profesor se toma del directorio; si no está, vale el que escribió y se guarda.
+    var miCorreo = correoDe(prof), escrito = t(p.correo).toLowerCase();
+    if (!miCorreo && escrito !== '') {
+      if (!/^[^\s@<>,;]+@[^\s@<>,;]+\.[a-z]{2,}$/.test(escrito)) return err('Revisa tu correo: no parece una dirección válida.');
+      miCorreo = escrito;
+      db.agregar('Correos', { quien: prof, correo: miCorreo });
+    }
+    var enlace = '';
+    if (p.archivo && p.archivo.b64) enlace = guardarArchivo(p.archivo, prof, ahora);
+    nuevas.forEach(function (x) {
+      var c = x.c;
+      db.agregar('Faltas', { id: x.id, avisado: ahora.sello, fecha: t(c.fecha), sem: t(c.sem), cod: t(c.cod),
+        materia: t(c.materia), prof: prof, ini: t(c.ini), fin: t(c.fin), motivo: t(p.motivo).slice(0, 80),
+        nota: t(p.nota).slice(0, 500), evidencia: enlace, estado: 'activa', tomado_por: '', actividad: '',
+        encargo: t(p.encargo).slice(0, 300) });
+    });
+    return { ok: true, nuevas: nuevas.length, omitidas: omitidas, evidencia: enlace !== '',
+      _correo: { coord: correoDe('coordinacion'), prof: miCorreo, nombre: prof, motivo: t(p.motivo), nota: t(p.nota).slice(0, 500),
+        encargo: t(p.encargo).slice(0, 300), enlace: enlace, avisado: ahora.sello,
+        clases: nuevas.map(function (x) { return { fecha: t(x.c.fecha), ini: t(x.c.ini), fin: t(x.c.fin), sem: t(x.c.sem), materia: t(x.c.materia) }; }) } };
+  }
+
+  if (a === 'retirar' || a === 'tomar' || a === 'soltar') {
+    var f = db.leer('Faltas').filter(function (x) { return activa(x) && t(x.id) === t(p.id); })[0];
+    if (!f) return err('Ese aviso ya no existe.');
+    if (a === 'retirar') {
+      if (t(f.prof) !== prof) return err('Solo quien avisó puede retirar el aviso.');
+      db.actualizar('Faltas', f._n, { estado: 'retirada' });
+      return { ok: true };
+    }
+    if (a === 'tomar') {
+      if (t(f.tomado_por) !== '') return err('Ese espacio ya lo apartó ' + t(f.tomado_por) + '.');
+      if (t(f.fecha) < ahora.fecha) return err('Esa clase ya pasó.');
+      if (t(p.actividad) === '') return err('Escribe para qué usarás el espacio.');
+      db.actualizar('Faltas', f._n, { tomado_por: prof, actividad: t(p.actividad).slice(0, 200) });
+      return { ok: true };
+    }
+    if (t(f.tomado_por) !== prof) return err('Ese espacio no lo apartaste tú.');
+    db.actualizar('Faltas', f._n, { tomado_por: '', actividad: '' });
+    return { ok: true };
+  }
+
+  return err('No entendí la solicitud.');
+}
+
+/* ════════ UTILIDADES ════════ */
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DIAS_K = ['dom','lun','mar','mie','jue','vie','sab'];
+const iso = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+const fechaDe = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const mas = (s, n) => { const d = fechaDe(s); d.setDate(d.getDate()+n); return iso(d); };
+const mins = h => { const [a,b] = h.split(':').map(Number); return a*60 + b; };
+const hhmm = m => Math.floor(m/60) + ':' + String(m%60).padStart(2,'0');
+const may = t => t.charAt(0).toUpperCase() + t.slice(1);
+const largo = s => may(fechaDe(s).toLocaleDateString('es-MX', {weekday:'long', day:'numeric', month:'long'}));
+const corto = s => fechaDe(s).toLocaleDateString('es-MX', {weekday:'short', day:'numeric', month:'short'});
+const guarda = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+                 set(k,v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k,v); } catch(e){} } };
+const sesion = { get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } },
+                 set(k,v){ try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k,v); } catch(e){} } };
+
+const DEMO = !API_URL;
+const simulado = () => { const v = DEMO ? guarda.get('pasAsis.sim') : null; return v && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(v) ? v : null; };
+function hoy(){ const v = simulado(); return v ? v.slice(0,10) : iso(new Date()); }
+function ahoraMin(){ const v = simulado(); if (v) return mins(v.slice(11,16)); const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
+
+/* Todas las clases del horario que caen en una fecha. */
+function clasesDe(fecha){
+  const k = DIAS_K[fechaDe(fecha).getDay()], out = [];
+  SEMS.forEach(sem => HORARIO[sem].forEach(c => c.s.forEach(([dia,ini,fin]) => {
+    if (dia === k) out.push({fecha, sem, cod:c.cod, materia:c.m, prof:c.p, ini, fin, id:[fecha,sem,c.cod,ini].join('|')});
+  })));
+  return out.sort((a,b) => mins(a.ini) - mins(b.ini));
+}
+
+/* ════════ CONEXIÓN: servidor real o modo prueba ════════ */
+const dbLocal = (() => {
+  const K = 'pasAsis.datos';
+  const abrir = () => { let d = null; try { d = JSON.parse(guarda.get(K)); } catch(e){} return Object.assign({Claves:CLAVES_PRUEBA, Asistencia:[], Faltas:[], Inhabiles:[], Correos:[], Lista:[], Alumnos:ALUMNOS_PRUEBA}, d || {}); };
+  return {
+    leer: h => abrir()[h].map((r,i) => Object.assign({_n:i}, r)),
+    agregar: (h,o) => { const d = abrir(); d[h].push(o); guarda.set(K, JSON.stringify(d)); },
+    agregarVarios: (h,l) => { const d = abrir(); d[h].push(...l); guarda.set(K, JSON.stringify(d)); },
+    actualizar: (h,n,campos) => { const d = abrir(); Object.assign(d[h][n], campos); guarda.set(K, JSON.stringify(d)); },
+    borrar: () => guarda.set(K, null)
+  };
+})();
+
+async function api(p){
+  if (DEMO) {
+    const f = hoy(), m = ahoraMin();
+    const ahora = {fecha:f, min:m, sello:f + ' ' + String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0')};
+    const res = nucleo(dbLocal, JSON.parse(JSON.stringify(p)), ahora, a => 'Modo prueba, no se guardó el archivo: ' + a.nombre);
+    delete res._correo; delete res.clave;
+    return res;
+  }
+  try {
+    const r = await fetch(API_URL, {method:'POST', body:JSON.stringify(p)});
+    return await r.json();
+  } catch(e) {
+    return {ok:false, error:'No hubo conexión con el servidor. Revisa tu internet e inténtalo de nuevo.'};
+  }
+}
+
+/* ════════ ESTADO ════════ */
+let prof = guarda.get('pasAsis.prof') || '';
+let clave = sesion.get('pasAsis.clave') || guarda.get('pasAsis.clave') || '';
+let claveCoord = sesion.get('pasAsis.coord') || '';
+let vista = 'hoy';
+let abierta = '';                 // id de la clase con el formulario abierto
+let calMes = hoy().slice(0,7), calSem = '', calSel = '', calDatos = [];
+let coordMes = hoy().slice(0,7);
+const main = $('#main');
+
+const VISTAS = ['hoy','avisar','calendario','coord'];
+function espera(){ main.innerHTML = '<div class="cargando" role="status"><p>Cargando…</p><div class="hueso"></div><div class="hueso"></div><div class="hueso bajo"></div></div>'; }
+function brindis(texto){
+  const el = document.createElement('div'); el.className = 'brindis'; el.setAttribute('role', 'status'); el.textContent = texto;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 3200);
+  try { if (navigator.vibrate) navigator.vibrate(60); } catch(e){}
+}
+function ir(v){ vista = v; abierta = ''; try { history.replaceState(null, '', '#' + v); } catch(e){} espera(); pintar(); window.scrollTo(0, 0); }
+function pintar(){
+  document.querySelectorAll('.pestanas button').forEach(b => b.setAttribute('aria-pressed', b.dataset.vista === vista));
+  ({hoy:vistaHoy, avisar:vistaAvisar, calendario:vistaCalendario, coord:vistaCoord})[vista]();
+}
+function aviso(el, texto, bien){ el.innerHTML = texto ? `<div class="aviso ${bien ? 'bien' : 'mal'}" role="alert">${esc(texto)}</div>` : ''; }
+function ocupar(boton, texto){ boton.disabled = true; boton.dataset.antes = boton.textContent; boton.textContent = texto; }
+function soltarBoton(boton){ boton.disabled = false; boton.textContent = boton.dataset.antes; }
+
+/* ════════ ENTRADA DEL PROFESOR ════════ */
+function entrada(titulo){
+  main.innerHTML = `
+    <div class="encabezado"><div><h2>${titulo}</h2><p class="sub">Entra con tu nombre y tu clave de profesor.</p></div></div>
+    <form class="caja angosta" id="fEntrar" autocomplete="off">
+      <label class="campo" style="margin-top:0"><span>¿Quién eres?</span>
+        <select id="eProf" required><option value="">Elige tu nombre</option>${PROFES.map(p => `<option${p === prof ? ' selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
+      <label class="campo"><span>Clave de profesor</span>
+        <input type="password" id="eClave" inputmode="numeric" autocomplete="off" required></label>
+      <label class="recordar"><input type="checkbox" id="eRecordar" checked> Recordarme en este teléfono</label>
+      <div id="eAviso"></div>
+      <button class="boton ancho">Entrar</button>
+    </form>`;
+  $('#fEntrar').addEventListener('submit', async e => {
+    e.preventDefault();
+    const b = e.target.querySelector('button'), p = $('#eProf').value, c = $('#eClave').value.trim();
+    ocupar(b, 'Entrando…');
+    const r = await api({a:'entrar', prof:p, clave:c});
+    if (!r.ok) { soltarBoton(b); return aviso($('#eAviso'), r.error); }
+    prof = p; clave = c;
+    guarda.set('pasAsis.prof', p);
+    sesion.set('pasAsis.clave', c);
+    guarda.set('pasAsis.clave', $('#eRecordar').checked ? c : null);
+    pintar();
+  });
+}
+function salir(){ clave = ''; sesion.set('pasAsis.clave', null); guarda.set('pasAsis.clave', null); pintar(); }
+function quienSoy(){ return `<p class="quien">${esc(prof)} · <button class="enlace" data-salir>Salir</button></p>`; }
+async function mio(){
+  const r = await api({a:'mio', prof, clave, fecha:hoy(), desde:mas(hoy(), -30)});
+  if (!r.ok) { clave = ''; sesion.set('pasAsis.clave', null); guarda.set('pasAsis.clave', null); }
+  return r;
+}
+
+/* ════════ 1 · PASAR ASISTENCIA ════════ */
+// Los grupos se piden al servidor con la clave del profesor: los nombres no viven en esta página.
+const grupos = {};
+let pase = {}, paseDe = '';
+async function cargarGrupo(sem){
+  if (grupos[sem]) return;
+  const r = await api({a:'grupo', prof, clave, sem});
+  grupos[sem] = r.ok ? r.alumnos : [];
+}
+async function vistaHoy(){
+  if (!clave) return entrada('Pasar asistencia');
+  const r = await mio();
+  if (!r.ok) return entrada('Pasar asistencia');
+  if (vista !== 'hoy') return;
+  const f = hoy(), ahora = ahoraMin();
+  const clases = clasesDe(f).filter(c => c.prof === prof);
+  const cAb = clases.find(c => c.id === abierta);
+  if (cAb) { await cargarGrupo(cAb.sem); if (vista !== 'hoy') return; if (paseDe !== abierta) { pase = {}; paseDe = abierta; } }
+  let cuerpo = r.inhabil ? `<div class="aviso bien" style="margin:0 0 .9rem">La coordinación marcó hoy como día sin clases: ${esc(r.inhabil)}.</div>` : '';
+  if (!clases.length) {
+    let sig = null;
+    for (let i = 1; i <= 7 && !sig; i++) sig = clasesDe(mas(f, i)).filter(c => c.prof === prof)[0] || null;
+    cuerpo += `<div class="caja"><p><strong>Hoy no tienes clases en el horario.</strong></p>` +
+      (sig ? `<p class="sub">Tu siguiente clase: ${esc(largo(sig.fecha).toLowerCase())}, ${sig.ini} a ${sig.fin}, ${esc(sig.materia)} (semestre ${sig.sem}).</p>` : '') + `</div>`;
+  }
+  clases.forEach(c => {
+    const hecha = r.asist.find(x => x.id === c.id), falta = r.faltas.find(x => x.id === c.id);
+    let pie;
+    if (hecha) pie = `<span class="estado hecha">✓ Clase registrada${hecha.registrado ? ' a las ' + esc(hecha.registrado.slice(11)) : ''}</span>`;
+    else if (falta) pie = `<span class="estado falta">Avisaste que no se dará</span>`;
+    else if (ahora < mins(c.ini) - 15) pie = `<span class="estado espera">Se abre a las ${hhmm(mins(c.ini) - 15)}</span>`;
+    else if (abierta === c.id) pie = '';
+    else pie = `<button class="boton" data-abrir="${esc(c.id)}">Pasar asistencia</button>`;
+    cuerpo += `<article class="clase s${c.sem}">
+      <div class="hora">${c.ini} a ${c.fin}</div>
+      <div class="mat">${esc(c.materia)}</div>
+      <div class="sem">Semestre ${c.sem}</div>
+      ${pie ? `<div class="pie-clase">${pie}</div>` : ''}
+      ${abierta === c.id && !hecha && !falta ? formAsistencia(c) : ''}
+    </article>`;
+  });
+  main.innerHTML = `<div class="encabezado"><div><h2>Tus clases de hoy</h2><p class="sub">${esc(largo(f))}</p></div>${quienSoy()}</div>${cuerpo}
+    <p class="leyenda">Registra la clase en sus primeros 15 minutos para que cuente a tiempo; solo se puede el mismo día. Si una clase no se dio, avísalo en <button class="enlace" data-ir="avisar">Avisar que faltaré</button>.</p>`;
+  const form = $('#fAsis');
+  if (form) {
+    form.scrollIntoView({block:'nearest'});
+    const n = $('#aPresentes');
+    form.querySelectorAll('[data-suma]').forEach(b => b.addEventListener('click', () => {
+      if (n) n.value = Math.max(0, Math.min(99, (parseInt(n.value, 10) || 0) + Number(b.dataset.suma)));
+    }));
+    const resumen = () => { const g = grupos[cAb.sem] || [], el = $('#paseRes'); if (!el) return;
+      const k = {P:0, R:0, F:0}; g.forEach(a => k[pase[a.id] || 'P']++);
+      el.textContent = `${k.P} presentes · ${k.R} con retardo · ${k.F} ${k.F === 1 ? 'falta' : 'faltas'}`; };
+    form.querySelectorAll('[data-al]').forEach(bt => bt.addEventListener('click', () => {
+      pase[bt.dataset.al] = bt.dataset.e;
+      bt.parentNode.querySelectorAll('button').forEach(o => o.setAttribute('aria-pressed', o === bt));
+      resumen();
+    }));
+    resumen();
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const b = $('#aEnviar'), c = clases.find(x => x.id === abierta);
+      const lista = (grupos[c.sem] || []).map(a => ({id:a.id, e:pase[a.id] || 'P'}));
+      ocupar(b, 'Registrando…');
+      const res = await api({a:'asistencia', prof, clave, clase:c, claveGrupo:$('#aGrupo').value, presentes:n ? n.value.trim() : '', lista, tema:$('#aTema').value});
+      if (!res.ok) { soltarBoton(b); $('#aGrupo').value = ''; return aviso($('#aAviso'), res.error); }
+      abierta = ''; pintar(); brindis('✓ Clase registrada');
+    });
+  }
+}
+const NOM_E = {P:'presente', R:'retardo', F:'falta'};
+function paseHtml(c){
+  return `<div class="campo"><span>Pase de lista <small>Todos empiezan como presentes. Toca R si llegó tarde o F si faltó.</small></span>
+    <div class="pase">${grupos[c.sem].map(a => `<div class="pase-fila"><span class="pase-nom">${esc(a.nombre)}</span><span class="pase-bot">${['P','R','F'].map(e =>
+      `<button type="button" class="pb pb-${e}" data-al="${esc(a.id)}" data-e="${e}" aria-pressed="${(pase[a.id] || 'P') === e}" aria-label="${esc(a.nombre)}: ${NOM_E[e]}">${e}</button>`).join('')}</span></div>`).join('')}</div>
+    <p class="pase-res" id="paseRes"></p></div>`;
+}
+function formAsistencia(c){
+  return `<form id="fAsis" autocomplete="off">
+    <div class="paso">
+      <p class="paso-rot">1 · Tú</p>
+      ${(grupos[c.sem] || []).length ? paseHtml(c) : `      <label class="campo"><span>¿Cuántos estudiantes llegaron? <small>Opcional</small></span>
+        <span class="contador"><button type="button" data-suma="-1" aria-label="Uno menos">−</button>
+        <input type="number" id="aPresentes" min="0" max="99" inputmode="numeric" placeholder="0">
+        <button type="button" data-suma="1" aria-label="Uno más">+</button></span></label>`}
+      <label class="campo"><span>Tema de hoy <small>Opcional</small></span><input type="text" id="aTema" maxlength="300"></label>
+    </div>
+    <div class="paso grupo">
+      <p class="paso-rot">2 · El grupo</p>
+      <label class="campo" style="margin-top:.4rem"><span>Clave del grupo <small>Pasa el teléfono a alguien del semestre ${c.sem} para que la escriba.</small></span>
+        <input type="password" id="aGrupo" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>
+      <div id="aAviso"></div>
+      <button class="boton ancho" id="aEnviar">Registrar la clase</button>
+    </div>
+    <p style="margin-top:.7rem"><button type="button" class="enlace" data-abrir="">Cancelar</button></p>
+  </form>`;
+}
+
+/* ════════ 2 · AVISAR QUE FALTARÉ ════════ */
+let avDesde = '', avHasta = '';
+async function vistaAvisar(mensaje){
+  if (!clave) return entrada('Avisar que faltaré');
+  const r = await mio();
+  if (!r.ok) return entrada('Avisar que faltaré');
+  if (vista !== 'avisar') return;
+  const f = hoy();
+  if (!avDesde) { avDesde = f; avHasta = f; }
+  const mios = r.faltas.slice().sort((a,b) => (a.fecha + a.ini.padStart(5,'0')).localeCompare(b.fecha + b.ini.padStart(5,'0')));
+  main.innerHTML = `<div class="encabezado"><div><h2>Avisar que faltaré</h2><p class="sub">Marca las clases que no darás. Aparecerán en el calendario para que alguien más pueda aprovechar el espacio.</p></div>${quienSoy()}</div>
+    ${mensaje ? `<div class="aviso bien" role="status" style="margin:0 0 .9rem">${esc(mensaje)}</div>` : ''}
+    <form class="caja" id="fAvisar">
+      <div class="fila">
+        <label class="campo" style="margin-top:0"><span>Desde</span><input type="date" id="vDesde" value="${avDesde}" required></label>
+        <label class="campo" style="margin-top:0"><span>Hasta</span><input type="date" id="vHasta" value="${avHasta}" required></label>
+      </div>
+      <div class="campo"><span>Clases que no se darán</span><div id="vClases"></div></div>
+      <label class="campo"><span>Motivo</span><select id="vMotivo" required><option value="">Elige uno</option>${MOTIVOS.map(m => `<option>${esc(m)}</option>`).join('')}</select></label>
+      <label class="recordar" style="color:var(--tinta);font-weight:700"><input type="checkbox" id="vDeja"> Dejaré una actividad al grupo</label>
+      <label class="campo" id="vEncargoCaja" hidden><span>¿Qué actividad dejas? <small>La verán la coordinación y quien quiera usar el espacio.</small></span><input type="text" id="vEncargo" maxlength="300"></label>
+      <label class="campo"><span>Nota para la coordinación <small>Opcional. Solo la ve la coordinación.</small></span><textarea id="vNota" maxlength="500"></textarea></label>
+      <label class="campo"><span>Evidencia <small>Foto o PDF, hasta 5 MB: oficio de comisión, receta, constancia. Solo la ve la coordinación.</small></span>
+        <input type="file" id="vArchivo" accept="image/*,application/pdf"></label>
+      ${r.correo ? `<p class="leyenda">El acuse, con la evidencia adjunta, llegará a la coordinación y a tu correo ${esc(r.correo)}.</p>`
+        : `<label class="campo"><span>Tu correo <small>Ahí te llega el acuse con la evidencia adjunta; la coordinación recibe el mismo correo. Solo se pide esta vez.</small></span>
+          <input type="text" id="vCorreo" inputmode="email" autocapitalize="none" autocomplete="email" value="${esc(guarda.get('pasAsis.correo') || '')}" required></label>`}
+      <div id="vAviso"></div>
+      <button class="boton ancho" id="vEnviar">Enviar aviso</button>
+    </form>
+    <div class="caja"><h3>Tus avisos</h3>${mios.length ? mios.map(x => `<div class="renglon"><div><b>${esc(corto(x.fecha))} · ${x.ini} a ${x.fin}</b>
+        <span>${esc(x.materia)} · semestre ${x.sem} · ${esc(x.motivo)}${x.encargo ? ' · dejas actividad' : ''}${x.tomado_por ? ' · lo usará ' + esc(x.tomado_por) : ''}</span></div>
+        ${x.fecha >= f ? `<button class="boton claro chico" data-retirar="${esc(x.id)}">Retirar aviso</button>` : ''}</div>`).join('') : '<p class="vacio">No tienes avisos en los últimos 30 días.</p>'}</div>`;
+
+  const yaAvisada = new Set(r.faltas.map(x => x.id));
+  let candidatas = [];
+  function listar(){
+    avDesde = $('#vDesde').value; avHasta = $('#vHasta').value;
+    if (avHasta < avDesde) { avHasta = avDesde; $('#vHasta').value = avDesde; }
+    candidatas = [];
+    const caja = $('#vClases');
+    if (!avDesde) { caja.innerHTML = '<p class="vacio">Elige las fechas.</p>'; return; }
+    for (let d = avDesde, i = 0; d <= avHasta && i < 31; d = mas(d, 1), i++) candidatas.push(...clasesDe(d).filter(c => c.prof === prof));
+    caja.innerHTML = candidatas.length ? candidatas.map((c,i) => {
+      const ya = yaAvisada.has(c.id);
+      return `<label class="marca${ya ? ' ya' : ''}"><input type="checkbox" value="${i}" ${ya ? 'disabled' : 'checked'}>
+        <div><b>${esc(corto(c.fecha))} · ${c.ini} a ${c.fin}</b><span>${esc(c.materia)} · semestre ${c.sem}${ya ? ' · ya avisada' : ''}</span></div></label>`;
+    }).join('') : '<p class="vacio">No tienes clases en esas fechas.</p>';
+  }
+  $('#vDesde').addEventListener('change', () => { if ($('#vHasta').value < $('#vDesde').value) $('#vHasta').value = $('#vDesde').value; listar(); });
+  $('#vHasta').addEventListener('change', listar);
+  $('#vDeja').addEventListener('change', e => { $('#vEncargoCaja').hidden = !e.target.checked; $('#vEncargo').required = e.target.checked; if (e.target.checked) $('#vEncargo').focus(); });
+  listar();
+
+  $('#fAvisar').addEventListener('submit', async e => {
+    e.preventDefault();
+    const b = $('#vEnviar'), av = $('#vAviso');
+    const clases = [...document.querySelectorAll('#vClases input:checked')].map(i => candidatas[Number(i.value)]);
+    if (!clases.length) return aviso(av, 'Marca al menos una clase.');
+    const arch = $('#vArchivo').files[0];
+    if (arch && arch.size > 5 * 1024 * 1024) return aviso(av, 'La evidencia pesa más de 5 MB. Tómale una foto más ligera o comprime el PDF.');
+    ocupar(b, 'Enviando…');
+    let archivo = null;
+    if (arch) {
+      try { archivo = {nombre:arch.name, tipo:arch.type, b64:await leerB64(arch)}; }
+      catch(x) { soltarBoton(b); return aviso(av, 'No se pudo leer el archivo. Intenta con otro.'); }
+    }
+    const vc = $('#vCorreo'), correo = vc ? vc.value.trim() : '';
+    if (correo) guarda.set('pasAsis.correo', correo);
+    const res = await api({a:'falta', prof, clave, clases, motivo:$('#vMotivo').value, nota:$('#vNota').value, archivo, correo,
+      encargo:$('#vDeja').checked ? $('#vEncargo').value : ''});
+    if (!res.ok) { soltarBoton(b); return aviso(av, res.error); }
+    vistaAvisar(`Aviso enviado: ${res.nuevas} ${res.nuevas === 1 ? 'clase' : 'clases'} en el calendario` +
+      (res.omitidas ? ` (${res.omitidas} ya estaban)` : '') + (arch && !DEMO ? ', con su evidencia.' : '.') + ' ' +
+      (DEMO ? 'En modo prueba no se envía correo ni se guarda la evidencia.'
+        : res.correo && res.correo.error ? 'El aviso quedó guardado, pero el correo no pudo salir; avisa a la coordinación.'
+        : res.correo && res.correo.coord && res.correo.prof ? 'El acuse ya salió a la coordinación y a tu correo.'
+        : res.correo && res.correo.coord ? 'El acuse ya salió a la coordinación.'
+        : res.correo && res.correo.prof ? 'El acuse salió a tu correo; la coordinación todavía no tiene correo registrado.'
+        : 'No hay correos registrados, así que no se envió acuse.'));
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+function leerB64(archivo){
+  return new Promise((ok, mal) => { const l = new FileReader(); l.onload = () => ok(String(l.result).split(',')[1]); l.onerror = mal; l.readAsDataURL(archivo); });
+}
+
+/* ════════ 3 · ESPACIOS LIBRES (semana y mes) ════════ */
+// Actividades Deportivas y Culturales: ocupan al grupo aunque no tengan profesor en el horario.
+const DEPORTES = [['mar','11:30','13:00'],['jue','11:30','13:00']];
+let calVista = 'semana', calSemana = '', calInhab = new Map();
+function lunesDe(s){ const d = fechaDe(s), w = d.getDay(); d.setDate(d.getDate() + (w === 0 ? 1 : w === 6 ? 2 : 1 - w)); return iso(d); }
+const libreAun = x => !x.tomado_por && !calInhab.has(x.fecha);
+/* Por qué conviene un espacio: día completo libre para el grupo, o pegado a una clase tuya. */
+function pistas(x){
+  const out = [], quedan = clasesDe(x.fecha).filter(c => c.sem === x.sem && !calDatos.some(v => v.id === c.id));
+  if (!quedan.length) out.push('Día completo libre');
+  if (clave) {
+    const mia = quedan.find(c => c.prof === prof && (Math.abs(mins(c.fin) - mins(x.ini)) <= 30 || Math.abs(mins(c.ini) - mins(x.fin)) <= 30));
+    if (mia) out.push('Junto a tu clase de las ' + mia.ini);
+  }
+  return out;
+}
+async function vistaCalendario(){
+  const f = hoy();
+  if (!calSemana) calSemana = lunesDe(f);
+  const [y,m] = calMes.split('-').map(Number);
+  const vIni = calVista === 'semana' ? calSemana : calMes + '-01', vFin = calVista === 'semana' ? mas(calSemana, 4) : iso(new Date(y, m, 0));
+  const horizonte = mas(f, 21);
+  const r = await api({a:'calendario', desde: vIni < f ? vIni : f, hasta: vFin > horizonte ? vFin : horizonte});
+  if (vista !== 'calendario') return;
+  calDatos = r.ok ? r.faltas : [];
+  calInhab = new Map((r.ok ? r.inhabiles : []).map(i => [i.fecha, i.motivo]));
+  const delSem = x => !calSem || x.sem === calSem;
+  const orden = (a,b) => (a.fecha + a.ini.padStart(5,'0')).localeCompare(b.fecha + b.ini.padStart(5,'0'));
+
+  // 1 · Lo que viene: espacios que todavía se pueden aprovechar.
+  const vienen = calDatos.filter(x => delSem(x) && libreAun(x) && x.fecha <= horizonte && (x.fecha > f || (x.fecha === f && mins(x.fin) > ahoraMin()))).sort(orden);
+  const tarjetas = vienen.length ? `<div class="oports">${vienen.map(x => `<button class="oport s${esc(x.sem)}" data-chip="${esc(x.id)}" aria-pressed="${x.id === calSel}">
+      <span class="o-cuando">${esc(corto(x.fecha))} · ${esc(x.ini)} a ${esc(x.fin)}</span>
+      <span class="o-sem">Semestre ${esc(x.sem)}</span>
+      <span class="o-mat">En lugar de ${esc(x.materia)}</span>
+      ${pistas(x).map(p => `<span class="pista">${esc(p)}</span>`).join('')}${x.encargo ? '<span class="pista gris">El grupo tiene actividad encargada</span>' : ''}
+    </button>`).join('')}</div>` : `<p class="vacio">No hay espacios libres avisados en las próximas tres semanas${calSem ? ' para el semestre ' + calSem : ''}.</p>`;
+
+  // 2 · La vista elegida.
+  let cuerpo, titulo;
+  if (calVista === 'semana') {
+    const dias = [0,1,2,3,4].map(i => mas(calSemana, i));
+    const a = fechaDe(dias[0]), b = fechaDe(dias[4]);
+    titulo = `Semana del ${a.getDate()}${a.getMonth() !== b.getMonth() ? ' de ' + a.toLocaleDateString('es-MX', {month:'long'}) : ''} al ${b.getDate()} de ${b.toLocaleDateString('es-MX', {month:'long'})}`;
+    const pos = (ini, fin) => `left:${((mins(ini) - 420) / 5.4).toFixed(2)}%;width:${((mins(fin) - mins(ini)) / 5.4).toFixed(2)}%`;
+    const horas = `<div class="tira-fila horas"><div class="tira-dia"></div><div class="tira-pista sin">${[7,9,11,13,15].map(h => `<span style="left:${((h - 7) * 60 / 5.4).toFixed(2)}%">${h}:00</span>`).join('')}</div></div>`;
+    cuerpo = SEMS.filter(s => !calSem || s === calSem).map(sem => `<section class="caja tira s${sem}"><h3>Semestre ${sem}</h3>${horas}
+      ${dias.map(d => {
+        const k = DIAS_K[fechaDe(d).getDay()];
+        let bloques;
+        if (calInhab.has(d)) bloques = `<div class="bl inh" style="left:0;width:100%">Sin clases: ${esc(calInhab.get(d))}</div>`;
+        else bloques = clasesDe(d).filter(c => c.sem === sem).map(c => {
+            const x = calDatos.find(v => v.id === c.id);
+            if (!x) return `<div class="bl${clave && c.prof === prof ? ' mia' : ''}" style="${pos(c.ini, c.fin)}" title="${c.ini} a ${c.fin} · ${esc(c.materia)} · ${esc(c.prof)}">${esc(c.materia)}</div>`;
+            const pasada = d < f;
+            return `<button class="bl ${x.tomado_por ? 'apartado' : 'libre'}${pasada ? ' pasada' : ''}" data-chip="${esc(x.id)}" aria-pressed="${x.id === calSel}" style="${pos(c.ini, c.fin)}"
+              aria-label="${esc(corto(d))}, ${c.ini} a ${c.fin}, ${esc(c.materia)}: ${x.tomado_por ? 'apartado' : 'espacio libre'}"><b>${x.tomado_por ? 'Apartado' : 'Libre'}</b><span>${c.ini} a ${c.fin}</span></button>`;
+          }).join('') + DEPORTES.filter(q => q[0] === k).map(q => `<div class="bl dep" style="${pos(q[1], q[2])}" title="${q[1]} a ${q[2]} · Actividades Deportivas y Culturales">Deportes y cultura</div>`).join('');
+        return `<div class="tira-fila${d === f ? ' hoy' : ''}"><div class="tira-dia">${esc(corto(d).replace(/ de /g, ' ').replace(/\.|,/g, ''))}</div><div class="tira-pista">${bloques}</div></div>`;
+      }).join('')}</section>`).join('') +
+      `<p class="leyenda"><span class="mu libre"></span> Espacio libre <span class="mu apartado"></span> Ya apartado <span class="mu normal"></span> Clase normal${clave ? ' <span class="mu mia"></span> Tu clase' : ''}</p>`;
+  } else {
+    titulo = may(new Date(y, m-1, 1).toLocaleDateString('es-MX', {month:'long', year:'numeric'}));
+    const visibles = calDatos.filter(x => delSem(x) && x.fecha.slice(0,7) === calMes);
+    let d = new Date(y, m-1, 1); d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+    const fin = new Date(y, m, 0);
+    let celdas = '';
+    while (d <= fin) {
+      for (let i = 0; i < 5; i++) {
+        const dia = new Date(d); dia.setDate(d.getDate() + i);
+        const s = iso(dia), fuera = dia.getMonth() !== m-1, sinClases = !fuera && calInhab.has(s);
+        const del = fuera || sinClases ? [] : visibles.filter(x => x.fecha === s).sort(orden);
+        celdas += `<div class="dia${fuera ? ' fuera' : ''}${s === f ? ' hoy' : ''}${del.length || sinClases ? '' : ' libre'}${sinClases ? ' inhabil' : ''}">
+          <div class="num"><span class="corto">${dia.getDate()}</span><span class="largo">${esc(largo(s))}</span>${s === f ? '<span>hoy</span>' : ''}</div>
+          ${sinClases ? `<div class="motivo">Sin clases: ${esc(calInhab.get(s))}</div>` : ''}
+          ${del.map(x => `<button class="chip s${esc(x.sem)}" data-chip="${esc(x.id)}" aria-pressed="${x.id === calSel}">
+            <b>S${esc(x.sem)} · ${esc(x.ini)} a ${esc(x.fin)}</b><span class="cm">${esc(x.materia)}</span>
+            <span class="usa">${x.tomado_por ? 'Apartado' : 'Espacio libre'}</span></button>`).join('')}</div>`;
+      }
+      d.setDate(d.getDate() + 7);
+    }
+    cuerpo = `<div class="cal">${['Lunes','Martes','Miércoles','Jueves','Viernes'].map(n => `<div class="cal-dia-nombre">${n}</div>`).join('')}${celdas}</div>
+      ${visibles.length || calInhab.size ? '' : '<p class="vacio">Este mes no hay clases avisadas' + (calSem ? ' para el semestre ' + calSem : '') + '.</p>'}`;
+  }
+  main.innerHTML = `<div class="encabezado"><div><h2>Espacios libres</h2><p class="sub">Clases que no se darán porque el profesor avisó. Sirven para una salida o una práctica extendida con ese grupo.</p></div>
+      <div class="filtro" role="group" aria-label="Filtrar por semestre"><button data-sem="" aria-pressed="${calSem === ''}">Todos</button>${SEMS.map(s => `<button data-sem="${s}" aria-pressed="${calSem === s}">Semestre ${s}</button>`).join('')}</div></div>
+    ${r.ok ? '' : `<div class="aviso mal">${esc(r.error)}</div>`}
+    <h3 class="sec">Para aprovechar en las próximas tres semanas</h3>
+    ${tarjetas}
+    <div id="detalle"></div>
+    <div class="cal-barra">
+      <div class="cal-mes"><button data-${calVista === 'semana' ? 'semana' : 'mes'}="-1" aria-label="${calVista === 'semana' ? 'Semana anterior' : 'Mes anterior'}">‹</button><h2>${esc(titulo)}</h2><button data-${calVista === 'semana' ? 'semana' : 'mes'}="1" aria-label="${calVista === 'semana' ? 'Semana siguiente' : 'Mes siguiente'}">›</button></div>
+      <div class="filtro" role="group" aria-label="Tipo de vista"><button data-calvista="semana" aria-pressed="${calVista === 'semana'}">Semana</button><button data-calvista="mes" aria-pressed="${calVista === 'mes'}">Mes</button></div>
+    </div>
+    ${cuerpo}`;
+  if (calSel) detalle(false);
+}
+function detalle(mover){
+  const x = calDatos.find(v => v.id === calSel), caja = $('#detalle');
+  document.querySelectorAll('[data-chip]').forEach(c => c.setAttribute('aria-pressed', c.dataset.chip === calSel));
+  if (!x || !caja) { if (caja) caja.innerHTML = ''; return; }
+  const vecinas = clasesDe(x.fecha).filter(c => c.sem === x.sem && c.id !== x.id && !calDatos.some(v => v.id === c.id));
+  const pasada = x.fecha < hoy(), ps = pistas(x);
+  let accion;
+  if (x.tomado_por) accion = `<p><strong>Lo usará ${esc(x.tomado_por)}:</strong> ${esc(x.actividad)}</p>` +
+    (clave && x.tomado_por === prof && !pasada ? `<p style="margin-top:.6rem"><button class="boton claro chico" data-soltar>Liberar el espacio</button></p>` : '');
+  else if (pasada) accion = `<p class="sub">Esta clase ya pasó.</p>`;
+  else if (!clave) accion = `<p class="sub">El espacio está libre. <button class="enlace" data-ir="hoy">Entra como profesor</button> para apartarlo.</p>`;
+  else accion = `<form id="fTomar"><label class="campo"><span>¿Para qué usarás este espacio? <small>Por ejemplo: salida a campo con el semestre ${esc(x.sem)}, práctica extendida de tu materia.</small></span>
+      <input type="text" id="tActividad" maxlength="200" required></label><div id="tAviso"></div><button class="boton ancho">Apartar este espacio</button></form>`;
+  caja.innerHTML = `<div class="caja detalle"><p class="paso-rot">Clase que no se dará</p><h3 style="font-size:1.25rem">${esc(x.materia)}</h3>
+    ${ps.length ? `<p style="margin-top:.4rem">${ps.map(p => `<span class="pista">${esc(p)}</span>`).join(' ')}</p>` : ''}
+    <dl><dt>Cuándo</dt><dd>${esc(largo(x.fecha))}, ${esc(x.ini)} a ${esc(x.fin)}</dd>
+    <dt>Grupo</dt><dd>Semestre ${esc(x.sem)}</dd><dt>Profesor</dt><dd>${esc(x.prof)}</dd>
+    ${x.encargo ? `<dt>Ojo</dt><dd>El profesor dejó una actividad al grupo: ${esc(x.encargo)}</dd>` : ''}
+    <dt>Ese día</dt><dd>${vecinas.length ? 'el grupo también tiene ' + vecinas.map(c => `${c.ini} a ${c.fin} ${esc(c.materia)} (${esc(c.prof)})`).join('; ') + '.' : 'el grupo no tiene otra clase.'}</dd></dl>
+    ${accion}</div>`;
+  if (mover) caja.scrollIntoView({behavior:'smooth', block:'nearest'});
+  const ft = $('#fTomar');
+  if (ft) ft.addEventListener('submit', async e => {
+    e.preventDefault();
+    const b = ft.querySelector('button'); ocupar(b, 'Apartando…');
+    const res = await api({a:'tomar', prof, clave, id:x.id, actividad:$('#tActividad').value});
+    if (!res.ok) { soltarBoton(b); return aviso($('#tAviso'), res.error); }
+    vistaCalendario();
+  });
+}
+
+/* ════════ 4 · COORDINACIÓN ════════ */
+// Semáforo de puntualidad: minutos entre el inicio de la clase y el registro.
+const UMBRAL = {tiempo:15, retraso:30};
+const EST = {
+  tiempo:  {n:'A tiempo',        s:'✓', d:`registrada a más tardar ${UMBRAL.tiempo} min después de empezar`},
+  retraso: {n:'Con retraso',     s:'R', d:`entre ${UMBRAL.tiempo + 1} y ${UMBRAL.retraso} min después de empezar`},
+  tarde:   {n:'Muy tarde',       s:'T', d:`más de ${UMBRAL.retraso} min, todavía en hora de clase`},
+  fuera:   {n:'Después de clase',s:'D', d:'registrada cuando la clase ya había terminado'},
+  validada:{n:'Validada',        s:'V', d:'la coordinación la dio por buena, con nota'},
+  encargo: {n:'Dejó actividad',  s:'E', d:'no hubo clase: el profesor avisó y dejó una actividad al grupo'},
+  avisada: {n:'Avisada',         s:'A', d:'el profesor avisó que no se daría, sin actividad'},
+  sin:     {n:'Sin registro',    s:'✕', d:'ya pasó y no hay registro ni aviso'},
+  prox:    {n:'Por venir',       s:'',  d:'todavía no ocurre'}
+};
+const ORDEN = ['tiempo','retraso','tarde','fuera','validada','encargo','avisada','sin'];
+// Patrón recurrente: a partir de cuántas actividades encargadas, o de qué porcentaje de clases no dadas.
+const RECURRENTE = {encargos:3, porcentaje:25, minimoClases:6};
+const tag = e => `<span class="tag e-${e}">${EST[e].s ? EST[e].s + ' ' : ''}${EST[e].n}</span>`;
+let coordSem = '', coordSel = '', coordCtx = null, coordTab = 'semaforo', coordProf = '', coordMot = '', coordMat = '';
+
+async function vistaCoord(mensaje){
+  if (!claveCoord) {
+    main.innerHTML = `<div class="encabezado"><div><h2>Coordinación</h2><p class="sub">Consulta del registro de asistencia y de los avisos, con sus motivos y evidencias.</p></div></div>
+      <form class="caja angosta" id="fCoord" autocomplete="off"><label class="campo" style="margin-top:0"><span>Clave de coordinación</span>
+      <input type="password" id="cClave" autocomplete="off" required></label><div id="cAviso"></div><button class="boton ancho">Entrar</button></form>`;
+    $('#fCoord').addEventListener('submit', async e => {
+      e.preventDefault();
+      const b = e.target.querySelector('button'), c = $('#cClave').value.trim();
+      ocupar(b, 'Entrando…');
+      const r = await api({a:'entrar', rol:'coord', clave:c});
+      if (!r.ok) { soltarBoton(b); return aviso($('#cAviso'), r.error); }
+      claveCoord = c; sesion.set('pasAsis.coord', c); pintar();
+    });
+    return;
+  }
+  const [y,m] = coordMes.split('-').map(Number);
+  const desde = coordMes + '-01', hasta = iso(new Date(y, m, 0));
+  const r = await api({a:'coord', clave:claveCoord, desde: desde < INICIO_REGISTRO ? desde : INICIO_REGISTRO, hasta:'2099-12-31'});
+  if (!r.ok) { claveCoord = ''; sesion.set('pasAsis.coord', null); return vistaCoord(); }
+  if (vista !== 'coord') return;
+  const f = DEMO ? hoy() : r.hoy, ahora = DEMO ? ahoraMin() : r.min;
+  const asist = new Map(r.asist.map(a => [a.id, a]));
+  const faltas = new Map(r.faltas.filter(x => x.estado !== 'retirada').map(x => [x.id, x]));
+  const inhab = new Map(r.inhabiles.map(i => [i.fecha, i.motivo]));
+  const inhabMes = r.inhabiles.filter(i => i.fecha >= desde && i.fecha <= hasta).sort((a,b) => a.fecha.localeCompare(b.fecha));
+
+  function estadoDe(c){
+    const a = asist.get(c.id);
+    if (a) {
+      if (a.origen === 'coordinacion') return 'validada';
+      const hora = mins(a.registrado.slice(11)), d = hora - mins(c.ini);
+      return d <= UMBRAL.tiempo ? 'tiempo' : d <= UMBRAL.retraso ? 'retraso' : hora <= mins(c.fin) ? 'tarde' : 'fuera';
+    }
+    if (faltas.has(c.id)) return faltas.get(c.id).encargo ? 'encargo' : 'avisada';
+    return c.fecha < f || (c.fecha === f && mins(c.fin) <= ahora) ? 'sin' : 'prox';
+  }
+  // Todas las clases del mes según el horario, con su estado.
+  const dias = [], clases = [];
+  for (let d = desde; d <= hasta; d = mas(d, 1)) {
+    const dow = fechaDe(d).getDay(); if (dow === 0 || dow === 6) continue;
+    dias.push(d);
+    if (d < INICIO_REGISTRO || inhab.has(d)) continue;
+    clasesDe(d).forEach(c => { if (!coordSem || c.sem === coordSem) { c.e = estadoDe(c); c.a = asist.get(c.id); c.f = faltas.get(c.id); clases.push(c); } });
+  }
+  const vencidas = clases.filter(c => c.e !== 'prox');
+  // Lo acumulado desde que empezó el registro, para ver patrones y no solo el mes.
+  const acumulado = [];
+  for (let d = INICIO_REGISTRO; d <= f; d = mas(d, 1)) {
+    if (inhab.has(d)) continue;
+    clasesDe(d).forEach(c => { if (!coordSem || c.sem === coordSem) { c.e = estadoDe(c); if (c.e !== 'prox') acumulado.push(c); } });
+  }
+  const delMes = x => x.fecha >= desde && x.fecha <= hasta && (!coordSem || x.sem === coordSem);
+  const avisosMes = r.faltas.filter(x => x.estado !== 'retirada' && delMes(x));
+  const cuenta = l => { const o = {}; ORDEN.forEach(e => o[e] = 0); l.forEach(c => o[c.e]++); return o; };
+  const tot = cuenta(vencidas), pct = (a, b) => b ? Math.round(100 * a / b) + '%' : 'sin datos';
+  const porGrupo = t => t.tiempo + t.retraso + t.tarde + t.fuera;
+  const profes = PROFES.filter(p => clases.some(c => c.prof === p));
+  coordCtx = {clases, asist:r.asist.filter(delMes), faltas:r.faltas.filter(delMes), lista:r.lista, listaMes:r.lista.filter(delMes)};
+  if (coordSel && !clases.some(c => c.id === coordSel)) coordSel = '';
+
+  const LET = ['D','L','M','X','J','V','S'];
+  const matriz = profes.length ? `<div class="tabla-wrap"><table class="matriz"><thead><tr><th>Profesor</th>${dias.map(d =>
+      `<th class="${d === f ? 'hoy' : ''}${inhab.has(d) ? ' inh' : ''}" title="${esc(largo(d))}${inhab.has(d) ? ': ' + esc(inhab.get(d)) : ''}">${LET[fechaDe(d).getDay()]}<br>${Number(d.slice(8))}</th>`).join('')}</tr></thead><tbody>
+    ${profes.map(p => `<tr><th scope="row">${esc(p)}</th>${dias.map(d => {
+      if (inhab.has(d)) return '<td class="inh"></td>';
+      const l = clases.filter(c => c.prof === p && c.fecha === d);
+      return `<td${d === f ? ' class="hoy"' : ''}>${l.map(c => c.e === 'prox'
+        ? `<span class="sq e-prox" title="${c.ini} ${esc(c.materia)}: por venir"></span>`
+        : `<button class="sq e-${c.e}" data-sq="${esc(c.id)}" aria-pressed="${c.id === coordSel}" title="${c.ini} ${esc(c.materia)}: ${EST[c.e].n}" aria-label="${esc(corto(d))}, ${c.ini}, ${esc(c.materia)}: ${EST[c.e].n}">${EST[c.e].s}</button>`).join('')}</td>`;
+    }).join('')}</tr>`).join('')}</tbody></table></div>` : '<p class="vacio">No hay clases que mostrar en este mes.</p>';
+
+  const sinReg = vencidas.filter(c => c.e === 'sin');
+  const ordenF = avisosMes.slice().sort((a,b) => (a.fecha + a.ini.padStart(5,'0')).localeCompare(b.fecha + b.ini.padStart(5,'0')));
+  const registradas = vencidas.filter(c => c.a).sort((a,b) => (b.fecha + b.ini.padStart(5,'0')).localeCompare(a.fecha + a.ini.padStart(5,'0')));
+  const evid = e => /^https:\/\//.test(e) ? `<a href="${esc(e)}" target="_blank" rel="noopener">Abrir ↗</a>` : esc(e || 'Sin evidencia');
+
+  // ── Pestaña Ausencias: tarjetas por día ──
+  const MOT = m => 'm' + Math.max(0, MOTIVOS.indexOf(m));
+  const antic = x => { const a = x.avisado.slice(0,10); if (a > x.fecha) return ['Avisó después de la clase', 'tarde'];
+    const n = Math.round((fechaDe(x.fecha) - fechaDe(a)) / 864e5); return n === 0 ? ['Avisó el mismo día', 'justo'] : ['Avisó ' + n + (n === 1 ? ' día antes' : ' días antes'), 'neutro']; };
+  const filtrados = ordenF.filter(x => (!coordProf || x.prof === coordProf) && (!coordMot || x.motivo === coordMot));
+  const porMotivo = MOTIVOS.map(mo => [mo, ordenF.filter(x => x.motivo === mo).length]).filter(p => p[1]);
+  const maxMot = Math.max(1, ...porMotivo.map(p => p[1]));
+  const fechasA = [...new Set(filtrados.map(x => x.fecha))];
+  const conEvid = ordenF.filter(x => x.evidencia).length;
+  const pesAusencias = `
+    <div class="cifras">
+      <div class="cifra"><b>${ordenF.length}</b><span>Clases que no se dan, con aviso</span></div>
+      <div class="cifra"><b>${new Set(ordenF.map(x => x.prof)).size}</b><span>Profesores que avisaron</span></div>
+      <div class="cifra${ordenF.length && conEvid < ordenF.length ? ' c-retraso' : ''}"><b>${conEvid} de ${ordenF.length}</b><span>Con evidencia adjunta</span></div>
+      <div class="cifra"><b>${ordenF.filter(x => x.encargo).length}</b><span>Con actividad encargada al grupo</span></div>
+    </div>
+    ${porMotivo.length ? `<div class="caja"><h3>Por motivo</h3><div class="barras">${porMotivo.map(([mo,n]) => `<button class="barra-fila" data-cmot="${esc(mo)}" aria-pressed="${coordMot === mo}">
+        <span class="b-nom">${esc(mo)}</span><span class="b-pista"><span class="b-rel ${MOT(mo)}" style="width:${(100 * n / maxMot).toFixed(1)}%"></span></span><span class="b-num">${n}</span></button>`).join('')}</div>
+        <p class="leyenda">Toca un motivo para ver solo esos avisos.${coordMot ? ' <button class="enlace" data-cmot="">Ver todos</button>' : ''}</p></div>` : ''}
+    ${ordenF.length ? `<div class="caja"><label class="campo" style="margin-top:0"><span>Profesor</span><select id="cProf"><option value="">Todos</option>${[...new Set(ordenF.map(x => x.prof))].sort((a,b) => a.localeCompare(b,'es')).map(p => `<option${p === coordProf ? ' selected' : ''}>${esc(p)}</option>`).join('')}</select></label></div>` : ''}
+    ${fechasA.map(d => `<h3 class="sec dia-aus">${esc(largo(d))}${d === f ? ' · hoy' : ''}</h3>
+      ${filtrados.filter(x => x.fecha === d).map(x => { const [at, ac] = antic(x); return `<article class="aus ${MOT(x.motivo)}">
+        <div class="aus-cab"><div><b>${esc(x.prof)}</b><span>${esc(x.ini)} a ${esc(x.fin)} · ${esc(x.materia)} · semestre ${esc(x.sem)}</span></div>
+          ${/^https:\/\//.test(x.evidencia) ? `<a class="boton claro chico" href="${esc(x.evidencia)}" target="_blank" rel="noopener">Ver evidencia ↗</a>` : ''}</div>
+        <p class="aus-chips"><span class="tagm ${MOT(x.motivo)}">${esc(x.motivo)}</span><span class="tagm ${ac}">${at}</span>
+          ${x.evidencia ? (/^https:\/\//.test(x.evidencia) ? '' : `<span class="tagm neutro">${esc(x.evidencia)}</span>`) : '<span class="tagm tarde">Sin evidencia</span>'}
+          <span class="tagm ${x.tomado_por ? 'usado' : 'neutro'}">${x.tomado_por ? 'Espacio apartado por ' + esc(x.tomado_por) : 'Espacio libre'}</span></p>
+        ${x.encargo ? `<p class="aus-linea"><b>Dejó actividad:</b> ${esc(x.encargo)}</p>` : '<p class="aus-linea suave">No dejó actividad al grupo.</p>'}
+        ${x.nota ? `<p class="aus-linea"><b>Nota:</b> ${esc(x.nota)}</p>` : ''}
+        ${x.tomado_por ? `<p class="aus-linea"><b>Uso del espacio:</b> ${esc(x.actividad)}</p>` : ''}
+      </article>`; }).join('')}`).join('') || '<p class="vacio">Sin avisos de ausencia' + (coordProf || coordMot ? ' con ese filtro' : ' en este mes') + '.</p>'}`;
+
+  // ── Pestaña Panorama: lo acumulado por profesor ──
+  const filasPan = PROFES.map(p => { const l = acumulado.filter(c => c.prof === p); if (!l.length) return null;
+    const t = cuenta(l), dadas = porGrupo(t) + t.validada, no = l.length - dadas;
+    const rec = t.encargo >= RECURRENTE.encargos || (l.length >= RECURRENTE.minimoClases && 100 * no / l.length >= RECURRENTE.porcentaje);
+    return {p, n:l.length, t, dadas, no, rec}; }).filter(Boolean).sort((a,b) => b.no / b.n - a.no / a.n || b.n - a.n);
+  const seg = (n, tot, cls, nom) => n ? `<span class="e-${cls}" style="width:${(100 * n / tot).toFixed(2)}%" title="${nom}: ${n}">${100 * n / tot >= 9 ? n : ''}</span>` : '';
+  const pesPanorama = `<div class="caja"><h3>Del ${esc(largo(INICIO_REGISTRO).toLowerCase())} a hoy</h3>
+      <p class="sub" style="margin-bottom:.8rem">De las clases que ya debieron darse, cuántas se dieron y qué pasó con las demás. Primero quienes más clases han dejado de dar.</p>
+      <ul class="leyenda-est" style="margin:0 0 1rem"><li><span class="sq e-tiempo"></span><span><b>Se dio</b> (firmada por el grupo o validada)</span></li><li><span class="sq e-encargo">E</span><span><b>Dejó actividad</b> en lugar de clase</span></li>
+        <li><span class="sq e-avisada">A</span><span><b>Avisó</b>, sin actividad</span></li><li><span class="sq e-sin">✕</span><span><b>Sin registro</b> ni aviso</span></li></ul>
+      ${filasPan.map(x => `<div class="pan"><div class="pan-nom"><b>${esc(x.p)}</b>${x.rec ? '<span class="tagm tarde">Patrón recurrente</span>' : ''}</div>
+        <div class="pan-barra" role="img" aria-label="${x.dadas} de ${x.n} clases dadas, ${x.t.encargo} con actividad, ${x.t.avisada} avisadas, ${x.t.sin} sin registro">${seg(x.dadas, x.n, 'tiempo', 'Se dio')}${seg(x.t.encargo, x.n, 'encargo', 'Dejó actividad')}${seg(x.t.avisada, x.n, 'avisada', 'Avisó')}${seg(x.t.sin, x.n, 'sin', 'Sin registro')}</div>
+        <div class="pan-txt">${x.dadas} de ${x.n} ${x.n === 1 ? 'clase dada' : 'clases dadas'}${x.t.encargo ? ' · dejó actividad ' + x.t.encargo + (x.t.encargo === 1 ? ' vez' : ' veces') : ''}${x.t.avisada ? ' · ' + x.t.avisada + (x.t.avisada === 1 ? ' aviso' : ' avisos') + ' sin actividad' : ''}${x.t.sin ? ' · ' + x.t.sin + ' sin registro' : ''}</div></div>`).join('') || '<p class="vacio">Todavía no hay clases que contar.</p>'}
+      <p class="leyenda">«Patrón recurrente» se enciende con ${RECURRENTE.encargos} o más actividades encargadas en lugar de clase, o cuando no se dio el ${RECURRENTE.porcentaje}% o más de las clases (con al menos ${RECURRENTE.minimoClases} programadas). Es una señal para conversar, no una sanción: revisa los motivos en Ausencias.</p></div>`;
+
+  const pesDias = `<div class="caja"><h3>Días sin clases</h3>
+      <p class="sub">Festivos, suspensiones o eventos de toda la licenciatura. Esos días no cuentan como clases sin registro y aparecen en Espacios libres.</p>
+      ${inhabMes.map(i => `<div class="renglon"><div><b>${esc(largo(i.fecha))}</b><span>${esc(i.motivo)}</span></div><button class="boton claro chico" data-quitar-inhabil="${esc(i.fecha)}">Quitar</button></div>`).join('') || '<p class="vacio">Ninguno en este mes.</p>'}
+      <form id="fInhabil" class="fila" style="align-items:flex-end;margin-top:.6rem">
+        <label class="campo" style="margin-top:0"><span>Fecha</span><input type="date" id="iFecha" min="${desde}" max="${hasta}" required></label>
+        <label class="campo" style="margin-top:0"><span>Motivo</span><input type="text" id="iMotivo" maxlength="120" placeholder="Día festivo" required></label>
+        <button class="boton claro" style="flex:0 0 auto">Marcar el día</button>
+      </form><div id="iAviso"></div></div>`;
+
+  // ── Pestaña Alumnos: asistencia de cada estudiante, acumulada ──
+  const lSem = r.lista.filter(x => !coordSem || x.sem === coordSem);
+  const materias = [...new Set(lSem.map(x => x.materia))].sort((a,b) => a.localeCompare(b,'es'));
+  if (coordMat && !materias.includes(coordMat)) coordMat = '';
+  const lMat = lSem.filter(x => !coordMat || x.materia === coordMat);
+  const porAl = new Map();
+  lMat.forEach(x => { const k = x.sem + '|' + x.expediente; if (!porAl.has(k)) porAl.set(k, {sem:x.sem, nombre:x.nombre, P:0, R:0, F:0}); porAl.get(k)[x.estado]++; });
+  const filasAl = [...porAl.values()].map(a => Object.assign(a, {n:a.P + a.R + a.F, pc:Math.round(100 * (a.P + a.R) / (a.P + a.R + a.F))}));
+  const pesAlumnos = `<div class="caja"><label class="campo" style="margin-top:0"><span>Materia</span><select id="cMat"><option value="">Todas</option>${materias.map(mt => `<option${mt === coordMat ? ' selected' : ''}>${esc(mt)}</option>`).join('')}</select></label>
+      <p class="leyenda">Acumulado desde el ${esc(largo(INICIO_REGISTRO).toLowerCase())}. El retardo cuenta como asistencia. Se marca a quien baja del ${ASISTENCIA_MINIMA}%.</p></div>
+    ${SEMS.filter(s => !coordSem || s === coordSem).map(s => { const l = filasAl.filter(a => a.sem === s).sort((a,b) => a.pc - b.pc || a.nombre.localeCompare(b.nombre,'es'));
+      return `<div class="caja s${s}" style="border-left:5px solid var(--ac)"><h3>Semestre ${s}</h3>${l.length ? `<div class="tabla-wrap"><table class="porprof"><thead><tr><th>Estudiante</th><th class="n">Clases</th><th class="n">Presente</th><th class="n">Retardo</th><th class="n">Falta</th><th>Asistencia</th></tr></thead><tbody>
+        ${l.map(a => `<tr><td>${esc(a.nombre)}</td><td class="n">${a.n}</td><td class="n">${a.P}</td><td class="n">${a.R || '·'}</td><td class="n${a.F ? ' alerta' : ''}">${a.F || '·'}</td>
+          <td><span class="mini-barra"><span style="width:${a.pc}%" class="${a.pc < ASISTENCIA_MINIMA ? 'baja' : ''}"></span></span> <b${a.pc < ASISTENCIA_MINIMA ? ' class="rojo"' : ''}>${a.pc}%</b></td></tr>`).join('')}
+        </tbody></table></div>` : '<p class="vacio">Todavía no hay pases de lista de este grupo.</p>'}</div>`; }).join('')}`;
+
+  const pesSemaforo = `<div class="cifras cinco">
+      <div class="cifra"><b>${vencidas.length}</b><span>Clases que ya debieron darse</span></div>
+      <div class="cifra c-tiempo"><b>${tot.tiempo}</b><span>A tiempo · ${pct(tot.tiempo, porGrupo(tot))} de las registradas</span></div>
+      <div class="cifra c-retraso"><b>${tot.retraso + tot.tarde + tot.fuera}</b><span>Registradas tarde</span></div>
+      <div class="cifra c-avisada"><b>${tot.avisada + tot.encargo}</b><span>No se dieron, con aviso${tot.encargo ? ' · ' + tot.encargo + ' con actividad' : ''}</span></div>
+      <div class="cifra${tot.sin ? ' alerta' : ''}"><b>${tot.sin}</b><span>Sin registro ni aviso</span></div>
+    </div>
+    <div class="caja"><h3>Semáforo del mes</h3>
+      <p class="sub" style="margin-bottom:.7rem">Un cuadro por clase. Toca uno para ver el detalle.</p>
+      ${matriz}
+      <ul class="leyenda-est">${ORDEN.map(e => `<li><span class="sq e-${e}" aria-hidden="true">${EST[e].s}</span><span><b>${EST[e].n}:</b> ${EST[e].d}.</span></li>`).join('')}
+        <li><span class="sq e-prox" aria-hidden="true"></span><span><b>Por venir:</b> todavía no ocurre.</span></li></ul>
+      <div id="cDetalle"></div>
+    </div>
+    <div class="caja"><h3>Por profesor</h3><div class="tabla-wrap"><table class="porprof"><thead><tr><th>Profesor</th><th class="n">Clases</th>${ORDEN.map(e => `<th class="n">${EST[e].n}</th>`).join('')}<th class="n">Puntualidad</th></tr></thead><tbody>
+      ${profes.map(p => { const l = vencidas.filter(c => c.prof === p); if (!l.length) return ''; const t = cuenta(l);
+        return `<tr><td>${esc(p)}</td><td class="n">${l.length}</td>${ORDEN.map(e => `<td class="n${e === 'sin' && t.sin ? ' alerta' : ''}">${t[e] || '·'}</td>`).join('')}<td class="n">${pct(t.tiempo, porGrupo(t))}</td></tr>`; }).join('') || `<tr><td colspan="${ORDEN.length + 3}" class="vacio">Todavía no hay clases que contar en este mes.</td></tr>`}
+    </tbody></table></div><p class="leyenda">Puntualidad: de las clases que el grupo firmó, cuántas se registraron a tiempo.</p></div>
+    <details class="caja"${sinReg.length ? ' open' : ''}><summary>Sin registro ni aviso (${sinReg.length})</summary><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Hora</th><th>Sem.</th><th>Materia</th><th>Profesor</th><th></th></tr></thead><tbody>
+      ${sinReg.map(c => `<tr><td>${esc(corto(c.fecha))}</td><td>${c.ini} a ${c.fin}</td><td>${c.sem}</td><td>${esc(c.materia)}</td><td>${esc(c.prof)}</td><td><button class="enlace" data-sq="${esc(c.id)}">Revisar</button></td></tr>`).join('') || '<tr><td colspan="6" class="vacio">Nada pendiente.</td></tr>'}
+    </tbody></table></div></details>
+    <details class="caja"><summary>Asistencias registradas (${registradas.length})</summary><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Hora</th><th>Sem.</th><th>Materia</th><th>Profesor</th><th>Semáforo</th><th>Registrada</th><th class="n">Presentes</th><th>Tema o nota</th></tr></thead><tbody>
+      ${registradas.map(c => `<tr><td>${esc(corto(c.fecha))}</td><td>${c.ini} a ${c.fin}</td><td>${c.sem}</td><td>${esc(c.materia)}</td><td>${esc(c.prof)}</td><td>${tag(c.e)}</td><td>${esc(c.a.registrado.slice(11))}${c.e === 'validada' ? '' : ' (' + minutos(c) + ')'}</td><td class="n">${esc(c.a.presentes)}</td><td>${esc(c.a.tema || c.a.nota)}</td></tr>`).join('') || '<tr><td colspan="9" class="vacio">Sin asistencias en este mes.</td></tr>'}
+    </tbody></table></div></details>`;
+  const TABS = [['semaforo','Semáforo'],['ausencias','Ausencias' + (ordenF.length ? ' (' + ordenF.length + ')' : '')],['alumnos','Alumnos'],['panorama','Panorama'],['dias','Días sin clases']];
+  main.innerHTML = `<div class="encabezado"><div><h2>Coordinación</h2><p class="sub">Clases del horario contra lo registrado. Se cuentan desde el ${esc(largo(INICIO_REGISTRO).toLowerCase())}.</p></div>
+      <p class="quien"><button class="enlace" data-salir-coord>Salir</button></p></div>
+    ${mensaje ? `<div class="aviso bien" role="status" style="margin:0 0 .9rem">${esc(mensaje)}</div>` : ''}
+    <div class="subpest" role="group" aria-label="Secciones de coordinación">${TABS.map(([k,n]) => `<button data-ctab="${k}" aria-pressed="${coordTab === k}">${n}</button>`).join('')}</div>
+    <div class="caja"><div class="fila" style="align-items:flex-end">
+      <label class="campo" style="margin-top:0"><span>Mes</span><input type="month" id="cMes" value="${coordMes}"></label>
+      <label class="campo" style="margin-top:0"><span>Semestre</span><select id="cSem"><option value="">Todos</option>${SEMS.map(s => `<option value="${s}"${coordSem === s ? ' selected' : ''}>Semestre ${s}</option>`).join('')}</select></label>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="boton claro chico" data-csv="asist">Asistencias (CSV)</button><button class="boton claro chico" data-csv="faltas">Avisos (CSV)</button><button class="boton claro chico" data-csv="lista">Pase de lista (CSV)</button></div>
+    </div></div>
+    ${({semaforo:pesSemaforo, ausencias:pesAusencias, alumnos:pesAlumnos, panorama:pesPanorama, dias:pesDias})[coordTab]}`;
+  $('#cMes').addEventListener('change', e => { if (e.target.value) { coordMes = e.target.value; coordSel = ''; vistaCoord(); } });
+  $('#cSem').addEventListener('change', e => { coordSem = e.target.value; vistaCoord(); });
+  const cm = $('#cMat'); if (cm) cm.addEventListener('change', e => { coordMat = e.target.value; vistaCoord(); });
+  const cp = $('#cProf'); if (cp) cp.addEventListener('change', e => { coordProf = e.target.value; vistaCoord(); });
+  const fi = $('#fInhabil'); if (fi) fi.addEventListener('submit', async e => {
+    e.preventDefault();
+    const res = await api({a:'inhabil', clave:claveCoord, fecha:$('#iFecha').value, motivo:$('#iMotivo').value});
+    if (!res.ok) return aviso($('#iAviso'), res.error);
+    vistaCoord('Día marcado sin clases.');
+  });
+  detalleCoord(false);
+}
+function minutos(c){
+  const d = mins(c.a.registrado.slice(11)) - mins(c.ini);
+  return d <= 0 ? (d === 0 ? 'al empezar' : -d + ' min antes') : d + ' min después de empezar';
+}
+function nombresDe(id, e, titulo){
+  const l = coordCtx.lista.filter(x => x.id === id && x.estado === e).map(x => x.nombre);
+  return l.length ? `<dt>${titulo}</dt><dd>${l.map(esc).join('; ')}</dd>` : '';
+}
+function detalleCoord(mover){
+  const caja = $('#cDetalle'); if (!caja) return;
+  document.querySelectorAll('.matriz .sq').forEach(b => b.setAttribute('aria-pressed', b.dataset.sq === coordSel));
+  const c = coordCtx && coordCtx.clases.find(x => x.id === coordSel);
+  if (!c) { caja.innerHTML = ''; return; }
+  let extra = '';
+  if (c.e === 'sin') extra = `<form id="fValidar"><label class="campo"><span>Validar esta clase <small>Si la clase sí se dio pero no se pudo registrar (sin señal, teléfono descargado), escribe el porqué. Queda firmada por la coordinación.</small></span>
+      <input type="text" id="vNotaCoord" maxlength="300" required></label><div id="vcAviso"></div><button class="boton ancho">Dar por buena la clase</button></form>`;
+  else if (c.a) extra = `<dl><dt>Registrada</dt><dd>${esc(c.a.registrado)}${c.e === 'validada' ? ', por la coordinación' : ', ' + minutos(c)}</dd>
+      ${c.a.presentes ? `<dt>Presentes</dt><dd>${esc(c.a.presentes)}</dd>` : ''}${nombresDe(c.id, 'F', 'Faltaron')}${nombresDe(c.id, 'R', 'Con retardo')}${c.a.tema ? `<dt>Tema</dt><dd>${esc(c.a.tema)}</dd>` : ''}${c.a.nota ? `<dt>Nota</dt><dd>${esc(c.a.nota)}</dd>` : ''}</dl>`;
+  else if (c.f) extra = `<dl><dt>Motivo</dt><dd>${esc(c.f.motivo)}</dd><dt>Actividad</dt><dd>${esc(c.f.encargo || 'No dejó actividad al grupo')}</dd>${c.f.nota ? `<dt>Nota</dt><dd>${esc(c.f.nota)}</dd>` : ''}
+      <dt>Evidencia</dt><dd>${/^https:\/\//.test(c.f.evidencia) ? `<a href="${esc(c.f.evidencia)}" target="_blank" rel="noopener">Abrir ↗</a>` : esc(c.f.evidencia || 'Sin evidencia')}</dd>
+      <dt>Avisó</dt><dd>${esc(c.f.avisado)}</dd><dt>Espacio</dt><dd>${c.f.tomado_por ? esc(c.f.tomado_por) + ': ' + esc(c.f.actividad) : 'Libre'}</dd></dl>`;
+  caja.innerHTML = `<div class="caja detalle" style="margin-bottom:0"><p style="margin-bottom:.4rem">${tag(c.e)}</p><h3 style="font-size:1.2rem">${esc(c.materia)}</h3>
+    <p class="sub">${esc(largo(c.fecha))}, ${c.ini} a ${c.fin} · semestre ${c.sem} · ${esc(c.prof)}</p>${extra}</div>`;
+  if (mover) caja.scrollIntoView({behavior:'smooth', block:'nearest'});
+  const fv = $('#fValidar');
+  if (fv) fv.addEventListener('submit', async e => {
+    e.preventDefault();
+    const b = fv.querySelector('button'); ocupar(b, 'Guardando…');
+    const res = await api({a:'validar', clave:claveCoord, nota:$('#vNotaCoord').value,
+      clase:{fecha:c.fecha, sem:c.sem, cod:c.cod, materia:c.materia, prof:c.prof, ini:c.ini, fin:c.fin}});
+    if (!res.ok) { soltarBoton(b); return aviso($('#vcAviso'), res.error); }
+    vistaCoord('Clase validada por la coordinación.');
+  });
+}
+function bajarCsv(cual){
+  const filas = cual === 'faltas' ? coordCtx.faltas : cual === 'lista' ? coordCtx.listaMes
+    : coordCtx.asist.map(a => { const c = coordCtx.clases.find(x => x.id === a.id); return Object.assign({}, a, {semaforo: c ? EST[c.e].n : ''}); });
+  if (!filas.length) return alert('No hay nada que descargar en este mes.');
+  const cols = Object.keys(filas[0]);
+  // El apóstrofo evita que Excel lea como fórmula un texto escrito por alguien.
+  const celda = v => { let s = String(v == null ? '' : v); if (/^[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const csv = '﻿' + [cols.join(','), ...filas.map(f => cols.map(c => celda(f[c])).join(','))].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = ({asist:'asistencias-', faltas:'avisos-', lista:'pase-de-lista-'})[cual] + coordMes + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ════════ CLICS ════════ */
+document.querySelector('.pestanas').addEventListener('click', e => { const b = e.target.closest('button[data-vista]'); if (b) ir(b.dataset.vista); });
+main.addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if ('salir' in d) return salir();
+  if ('salirCoord' in d) { claveCoord = ''; sesion.set('pasAsis.coord', null); return pintar(); }
+  if ('ir' in d) return ir(d.ir);
+  if ('abrir' in d) { abierta = d.abrir; return pintar(); }
+  if ('mes' in d) { const [y,m] = calMes.split('-').map(Number); calMes = iso(new Date(y, m-1+Number(d.mes), 1)).slice(0,7); calSel = ''; return pintar(); }
+  if ('sem' in d) { calSem = d.sem; calSel = ''; return pintar(); }
+  if ('semana' in d) { calSemana = mas(calSemana, 7 * Number(d.semana)); return pintar(); }
+  if ('calvista' in d) { calVista = d.calvista; if (calVista === 'mes') calMes = calSemana.slice(0,7); return pintar(); }
+  if ('ctab' in d) { coordTab = d.ctab; coordSel = ''; return pintar(); }
+  if ('cmot' in d) { coordMot = coordMot === d.cmot ? '' : d.cmot; return pintar(); }
+  if ('chip' in d) { calSel = calSel === d.chip ? '' : d.chip; return detalle(true); }
+  if ('csv' in d) return bajarCsv(d.csv);
+  if ('sq' in d) { coordSel = coordSel === d.sq && b.classList.contains('sq') ? '' : d.sq; return detalleCoord(true); }
+  if ('quitarInhabil' in d) { const r = await api({a:'inhabil', clave:claveCoord, fecha:d.quitarInhabil, quitar:true}); return r.ok ? vistaCoord('Día restablecido.') : alert(r.error); }
+  if ('retirar' in d) {
+    if (!confirm('¿Retirar el aviso? La clase vuelve a contar como que sí se dará.')) return;
+    const r = await api({a:'retirar', prof, clave, id:d.retirar});
+    return r.ok ? vistaAvisar('Aviso retirado.') : alert(r.error);
+  }
+  if ('soltar' in d) { const r = await api({a:'soltar', prof, clave, id:calSel}); if (!r.ok) alert(r.error); return pintar(); }
+});
+
+/* ════════ MODO PRUEBA ════════ */
+if (DEMO) {
+  $('#prueba').hidden = false;
+  const sim = $('#simDia'), quitar = $('#simQuitar');
+  const ponSim = v => { guarda.set('pasAsis.sim', v || null); sim.value = v || ''; quitar.hidden = !v;
+    calMes = coordMes = hoy().slice(0,7); calSemana = ''; avDesde = avHasta = ''; calSel = ''; coordSel = ''; abierta = ''; pintar(); };
+  sim.value = simulado() || ''; quitar.hidden = !sim.value;
+  sim.addEventListener('change', () => ponSim(sim.value));
+  quitar.addEventListener('click', () => ponSim(''));
+  $('#borrarPrueba').addEventListener('click', () => { if (confirm('¿Borrar todos los registros de prueba de este navegador?')) { dbLocal.borrar(); pintar(); } });
+}
+
+{ const h = location.hash.slice(1); if (VISTAS.includes(h)) vista = h; }
+{ const pie = $('#pieLogo'), cab = $('.logo-link img'); if (pie && cab) pie.src = cab.src; }
+espera();
+pintar();
+</script>
+</body>
+</html>
