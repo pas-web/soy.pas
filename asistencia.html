@@ -28,6 +28,13 @@
     ve la coordinación.
   · Esta página no lleva la medición de uso del sitio, porque aquí se
     escriben claves.
+  · RAPIDEZ: cada consulta al servidor tarda unos 3 segundos, así que
+    la página evita esperarlas. Guarda en el teléfono la copia del día
+    de «mis clases» y la pinta al instante mientras la refresca por
+    detrás; pide las listas de los grupos de hoy por adelantado (viven
+    solo en la pestaña y solo ese día); entra con una sola consulta, y
+    al registrar una clase actualiza la copia sin volver a preguntar.
+    Una falla de señal ya no cierra la sesión.
   ═══════════════════════════════════════════════════════════════
 -->
 <meta charset="UTF-8">
@@ -36,6 +43,8 @@
 <title>Asistencia y avisos · Licenciatura PAS · UAQ Campus Concá</title>
 <meta name="theme-color" content="#14706B">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -696,7 +705,7 @@ async function api(p){
     const r = await fetch(API_URL, {method:'POST', body:JSON.stringify(p)});
     return await r.json();
   } catch(e) {
-    return {ok:false, error:'No hubo conexión con el servidor. Revisa tu internet e inténtalo de nuevo.'};
+    return {ok:false, red:true, error:'No hubo conexión con el servidor. Revisa tu internet e inténtalo de nuevo.'};
   }
 }
 
@@ -743,41 +752,112 @@ function entrada(titulo){
     e.preventDefault();
     const b = e.target.querySelector('button'), p = $('#eProf').value, c = $('#eClave').value.trim();
     ocupar(b, 'Entrando…');
-    const r = await api({a:'entrar', prof:p, clave:c});
+    // Una sola consulta: «mio» valida la clave y de paso trae las clases del día.
+    const r = await api({a:'mio', prof:p, clave:c, fecha:hoy(), desde:mas(hoy(), -30)});
     if (!r.ok) { soltarBoton(b); return aviso($('#eAviso'), r.error); }
-    prof = p; clave = c;
+    prof = p; clave = c; mioGuardar(r);
     guarda.set('pasAsis.prof', p);
     sesion.set('pasAsis.clave', c);
     guarda.set('pasAsis.clave', $('#eRecordar').checked ? c : null);
     pintar();
   });
 }
-function salir(){ clave = ''; sesion.set('pasAsis.clave', null); guarda.set('pasAsis.clave', null); pintar(); }
+function olvidar(){
+  clave = ''; sesion.set('pasAsis.clave', null); guarda.set('pasAsis.clave', null);
+  mioOlvida(); Object.keys(grupos).forEach(k => delete grupos[k]); sesion.set('pasAsis.grupos', null);
+}
+function salir(){ olvidar(); pintar(); }
 function quienSoy(){ return `<p class="quien">${esc(prof)} · <button class="enlace" data-salir>Salir</button></p>`; }
-async function mio(){
-  const r = await api({a:'mio', prof, clave, fecha:hoy(), desde:mas(hoy(), -30)});
-  if (!r.ok) { clave = ''; sesion.set('pasAsis.clave', null); guarda.set('pasAsis.clave', null); }
-  return r;
+/* «mio» (mis clases registradas y mis avisos) se guarda como copia del día: la pantalla
+   se pinta con ella al instante y la consulta al servidor corre por detrás. */
+let mioDatos = null, mioHora = 0, mioVuelo = null, tocado = false;
+const mioDe = () => prof + '|' + hoy();
+const firma = r => JSON.stringify([r.asist, r.faltas, r.inhabil, r.correo]);
+function mioCopia(){
+  if (mioDatos && mioDatos._de === mioDe()) return mioDatos;
+  try { const d = JSON.parse(guarda.get('pasAsis.mio')); if (d && d._de === mioDe() && d.asist && d.faltas) { mioDatos = d; mioHora = 0; return d; } } catch(e){}
+  return null;
+}
+function mioGuardar(r){ r._de = mioDe(); mioDatos = r; mioHora = Date.now(); guarda.set('pasAsis.mio', JSON.stringify(r)); }
+function mioOlvida(){ mioDatos = null; mioHora = 0; guarda.set('pasAsis.mio', null); }
+function mioRed(){
+  if (!mioVuelo) {
+    const quien = prof;
+    mioVuelo = api({a:'mio', prof, clave, fecha:hoy(), desde:mas(hoy(), -30)}).then(r => {
+      mioVuelo = null;
+      if (quien !== prof) return r;
+      if (r.ok) mioGuardar(r); else if (!r.red) olvidar();   // sin señal no se cierra la sesión
+      return r;
+    });
+  }
+  return mioVuelo;
+}
+async function conMio(v, titulo, render){
+  const c = mioCopia();
+  if (c) {
+    tocado = false; render(c);
+    if (Date.now() - mioHora > 20000) {
+      const antes = firma(c);
+      mioRed().then(r => {
+        if (vista !== v) return;
+        if (!r.ok) { if (!clave) entrada(titulo); return; }
+        if (firma(r) !== antes && !abierta && !tocado) render(r);
+      });
+    }
+    return;
+  }
+  if (v === 'hoy') {
+    // Primera visita del día: las clases salen del horario al instante y el estado llega después.
+    tocado = false; render({asist:[], faltas:[], inhabil:'', correo:''});
+    mioRed().then(r => {
+      if (vista !== v) return;
+      if (!r.ok) { if (!clave) entrada(titulo); return; }
+      const enUso = abierta && !r.asist.some(x => x.id === abierta) && !r.faltas.some(x => x.id === abierta);
+      if (!enUso) render(r);
+    });
+    return;
+  }
+  const r = await mioRed();
+  if (vista !== v) return;
+  if (!r.ok) {
+    if (!clave) return entrada(titulo);
+    main.innerHTML = `<div class="aviso mal" role="alert">${esc(r.error)}</div><p style="margin-top:.9rem"><button class="boton" data-ir="${v}">Reintentar</button></p>`;
+    return;
+  }
+  tocado = false; render(r);
 }
 
 /* ════════ 1 · PASAR ASISTENCIA ════════ */
 // Los grupos se piden al servidor con la clave del profesor: los nombres no viven en esta página.
-const grupos = {};
+// Se piden por adelantado al ver las clases de hoy y se quedan en la pestaña solo ese día.
+const grupos = (() => { try { const g = JSON.parse(sesion.get('pasAsis.grupos')); if (g && g._dia === hoy()) return g; } catch(e){} return {}; })();
+const gruposVuelo = {}, gruposError = {};
 let pase = {}, paseDe = '';
-async function cargarGrupo(sem){
-  if (grupos[sem]) return;
-  const r = await api({a:'grupo', prof, clave, sem});
-  grupos[sem] = r.ok ? r.alumnos : [];
+function cargarGrupo(sem){
+  if (grupos[sem]) return Promise.resolve(true);
+  if (!gruposVuelo[sem]) {
+    delete gruposError[sem];
+    gruposVuelo[sem] = api({a:'grupo', prof, clave, sem}).then(r => {
+      delete gruposVuelo[sem];
+      if (r.ok) { grupos[sem] = r.alumnos || []; grupos._dia = hoy(); sesion.set('pasAsis.grupos', JSON.stringify(grupos)); }
+      else gruposError[sem] = r.error || 'No se pudo cargar la lista.';
+      return r.ok;
+    });
+  }
+  return gruposVuelo[sem];
 }
-async function vistaHoy(){
+function vistaHoy(){
   if (!clave) return entrada('Pasar asistencia');
-  const r = await mio();
-  if (!r.ok) return entrada('Pasar asistencia');
-  if (vista !== 'hoy') return;
+  return conMio('hoy', 'Pasar asistencia', pintaHoy);
+}
+function pintaHoy(r){
   const f = hoy(), ahora = ahoraMin();
   const clases = clasesDe(f).filter(c => c.prof === prof);
   const cAb = clases.find(c => c.id === abierta);
-  if (cAb) { await cargarGrupo(cAb.sem); if (vista !== 'hoy') return; if (paseDe !== abierta) { pase = {}; paseDe = abierta; } }
+  if (cAb && paseDe !== abierta) { pase = {}; paseDe = abierta; }
+  // La lista del grupo: si aún no llega, la tarjeta lo dice y se completa sola.
+  const listo = c => !!grupos[c.sem];
+  if (cAb && !listo(cAb) && !gruposError[cAb.sem]) cargarGrupo(cAb.sem).then(() => { if (vista === 'hoy' && abierta === cAb.id) pintaHoy(mioCopia() || r); });
   let cuerpo = r.inhabil ? `<div class="aviso bien" style="margin:0 0 .9rem">La coordinación marcó hoy como día sin clases: ${esc(r.inhabil)}.</div>` : '';
   if (!clases.length) {
     let sig = null;
@@ -798,9 +878,13 @@ async function vistaHoy(){
       <div class="mat">${esc(c.materia)}</div>
       <div class="sem">Semestre ${c.sem}</div>
       ${pie ? `<div class="pie-clase">${pie}</div>` : ''}
-      ${abierta === c.id && !hecha && !falta ? formAsistencia(c) : ''}
+      ${abierta !== c.id || hecha || falta ? '' : listo(c) ? formAsistencia(c)
+        : gruposError[c.sem] ? `<div class="aviso mal" role="alert">${esc(gruposError[c.sem])}</div><p style="margin-top:.7rem"><button class="boton" data-reintenta="${esc(c.sem)}">Reintentar</button> <button type="button" class="enlace" data-abrir="">Cancelar</button></p>`
+        : `<div class="cargando" role="status" style="margin-top:.9rem"><p>Cargando la lista del semestre ${c.sem}…</p><div class="hueso"></div></div>`}
     </article>`;
   });
+  // Por adelantado: las listas de las clases de hoy que faltan por registrar.
+  [...new Set(clases.filter(c => !r.asist.some(x => x.id === c.id) && !r.faltas.some(x => x.id === c.id)).map(c => c.sem))].forEach(cargarGrupo);
   main.innerHTML = `<div class="encabezado"><div><h2>Tus clases de hoy</h2><p class="sub">${esc(largo(f))}</p></div>${quienSoy()}</div>${cuerpo}
     <p class="leyenda">Registra la clase en sus primeros 15 minutos para que cuente a tiempo; solo se puede el mismo día. Si una clase no se dio, avísalo en <button class="enlace" data-ir="avisar">Avisar que faltaré</button>.</p>`;
   const form = $('#fAsis');
@@ -826,6 +910,9 @@ async function vistaHoy(){
       ocupar(b, 'Registrando…');
       const res = await api({a:'asistencia', prof, clave, clase:c, claveGrupo:$('#aGrupo').value, presentes:n ? n.value.trim() : '', lista, tema:''});
       if (!res.ok) { soltarBoton(b); $('#aGrupo').value = ''; return aviso($('#aAviso'), res.error); }
+      // La copia del día se actualiza aquí mismo: no hace falta volver a preguntar al servidor.
+      const m = mioCopia();
+      if (m) { m.asist.push({id:res.id || c.id, registrado:res.registrado || ''}); mioGuardar(m); }
       abierta = ''; pintar(); brindis('✓ Clase registrada');
     });
   }
@@ -859,11 +946,11 @@ function formAsistencia(c){
 
 /* ════════ 2 · AVISAR QUE FALTARÉ ════════ */
 let avDesde = '', avHasta = '';
-async function vistaAvisar(mensaje){
+function vistaAvisar(mensaje){
   if (!clave) return entrada('Avisar que faltaré');
-  const r = await mio();
-  if (!r.ok) return entrada('Avisar que faltaré');
-  if (vista !== 'avisar') return;
+  return conMio('avisar', 'Avisar que faltaré', r => pintaAvisar(r, mensaje));
+}
+function pintaAvisar(r, mensaje){
   const f = hoy();
   if (!avDesde) { avDesde = f; avHasta = f; }
   const mios = r.faltas.slice().sort((a,b) => (a.fecha + a.ini.padStart(5,'0')).localeCompare(b.fecha + b.ini.padStart(5,'0')));
@@ -929,6 +1016,7 @@ async function vistaAvisar(mensaje){
     const res = await api({a:'falta', prof, clave, clases, motivo:$('#vMotivo').value, nota:$('#vNota').value, archivo, correo,
       encargo:$('#vDeja').checked ? $('#vEncargo').value : ''});
     if (!res.ok) { soltarBoton(b); return aviso(av, res.error); }
+    mioOlvida(); espera();
     vistaAvisar(`Aviso enviado: ${res.nuevas} ${res.nuevas === 1 ? 'clase' : 'clases'} en el calendario` +
       (res.omitidas ? ` (${res.omitidas} ya estaban)` : '') + (arch && !DEMO ? ', con su evidencia.' : '.') + ' ' +
       (DEMO ? 'En modo prueba no se envía correo ni se guarda la evidencia.'
@@ -1344,6 +1432,7 @@ main.addEventListener('click', async e => {
   if ('salirCoord' in d) { claveCoord = ''; sesion.set('pasAsis.coord', null); return pintar(); }
   if ('ir' in d) return ir(d.ir);
   if ('abrir' in d) { abierta = d.abrir; return pintar(); }
+  if ('reintenta' in d) { delete gruposError[d.reintenta]; return pintar(); }
   if ('mes' in d) { const [y,m] = calMes.split('-').map(Number); calMes = iso(new Date(y, m-1+Number(d.mes), 1)).slice(0,7); calSel = ''; return pintar(); }
   if ('sem' in d) { calSem = d.sem; calSel = ''; return pintar(); }
   if ('semana' in d) { calSemana = mas(calSemana, 7 * Number(d.semana)); return pintar(); }
@@ -1357,10 +1446,14 @@ main.addEventListener('click', async e => {
   if ('retirar' in d) {
     if (!confirm('¿Retirar el aviso? La clase vuelve a contar como que sí se dará.')) return;
     const r = await api({a:'retirar', prof, clave, id:d.retirar});
-    return r.ok ? vistaAvisar('Aviso retirado.') : alert(r.error);
+    if (!r.ok) return alert(r.error);
+    mioOlvida(); espera(); return vistaAvisar('Aviso retirado.');
   }
   if ('soltar' in d) { const r = await api({a:'soltar', prof, clave, id:calSel}); if (!r.ok) alert(r.error); return pintar(); }
 });
+
+main.addEventListener('input', () => { tocado = true; });
+main.addEventListener('change', () => { tocado = true; });
 
 /* ════════ MODO PRUEBA ════════ */
 if (DEMO) {
